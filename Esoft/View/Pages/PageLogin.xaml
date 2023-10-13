@@ -1,0 +1,34 @@
+﻿<Page x:Class="WpfApp1.View.PageLogin"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageLogin">
+
+    <Grid>
+        <StackPanel>
+            <TextBox Name="tb" 
+                     Style="{StaticResource textBoxStyle}"
+                     Text="Email"
+                     Margin="15"
+                     />
+            <Button Click="Button_Click"
+                    Height="50"/>
+
+            <RadioButton Content="Red"
+                         Style="{StaticResource radioButtonStyle}"/>
+            <RadioButton Content="Blue"
+                         Style="{StaticResource radioButtonStyle}"/>
+            <RadioButton Content="RedDisabled"
+                         Name="rbDis"
+                         Style="{StaticResource radioButtonStyle}"/>
+            <RadioButton Content="BlueDisabled"
+                         Name="rbDis1"
+                         Style="{StaticResource radioButtonStyle}"/>
+
+        </StackPanel>
+    </Grid>
+</Page>

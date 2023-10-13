@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1773a950c3cb4ebab8806ac2ddb2c966" Name="Diagram1">
+        <EntityTypeShape EntityType="esoftDBModel.Client" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.Demand" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.Estate" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.Offer" Width="1.5" PointX="6" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.Realtor" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.TypesOfEstate" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <AssociationConnector Association="esoftDBModel.FK__Demands__IdClien__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Offers__IdClient__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Demands__IdRealt__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Demands__IdTypeO__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Offers__IdEstate__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Offers__IdRealto__59063A47" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,41 @@
+﻿<Page x:Class="WpfApp1.View.Alerts.PageError"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.View.Alerts"
+      mc:Ignorable="d" 
+      d:DesignHeight="50" d:DesignWidth="300"
+      Title="PageError">
+
+    <Grid>
+        <Canvas Background="Yellow">
+
+            <Image Name="imgError"
+                   Canvas.Left="0"
+                   Width="50"
+                   Height="50"
+                   Source="/View/Resources/ic_error_outline_red_36pt.png"/>
+
+
+
+            <Label Canvas.Left="50"
+                   Name="labelAlert"
+                   VerticalContentAlignment="Center"
+                   Style="{StaticResource textParagraphColor}" 
+                   Height="50" />
+
+
+            <Button Canvas.Right="5"
+                    Canvas.Top="15"
+                    Content="X"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Name="btnExit"
+                    Click="btnExit_Click"
+                    Width="20"
+                    Height="20"/>
+
+        </Canvas>
+    </Grid>
+</Page>
