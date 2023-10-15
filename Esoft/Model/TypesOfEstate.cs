@@ -18,6 +18,7 @@ namespace Esoft.Model
         public TypesOfEstate()
         {
             this.Demands = new HashSet<Demand>();
+            this.Estates = new HashSet<Estate>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace Esoft.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Demand> Demands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Estate> Estates { get; set; }
     }
 }

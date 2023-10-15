@@ -20,6 +20,8 @@ namespace Esoft.Model
         public int IdTypeOfEstate { get; set; }
         public Nullable<int> MinPrice { get; set; }
         public Nullable<int> MaxPrice { get; set; }
+        public Nullable<double> MinTotalArea { get; set; }
+        public Nullable<double> MaxTotalArea { get; set; }
         public Nullable<int> MinNumbOfRooms { get; set; }
         public Nullable<int> MaxNumbOfRooms { get; set; }
         public Nullable<int> MinFloorNumber { get; set; }
@@ -30,8 +32,6 @@ namespace Esoft.Model
         public string StreetAddress { get; set; }
         public string HouseNumber { get; set; }
         public string ApartmentNumber { get; set; }
-        public Nullable<double> MinTotalArea { get; set; }
-        public Nullable<double> MaxTotalArea { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual Realtor Realtor { get; set; }

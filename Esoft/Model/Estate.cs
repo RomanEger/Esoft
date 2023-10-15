@@ -31,8 +31,10 @@ namespace Esoft.Model
         public Nullable<int> NumberOfStroyes { get; set; }
         public Nullable<int> NumberOfRooms { get; set; }
         public Nullable<double> TotalArea { get; set; }
+        public int IdTypeOfEstate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offers { get; set; }
+        public virtual TypesOfEstate TypesOfEstate { get; set; }
     }
 }

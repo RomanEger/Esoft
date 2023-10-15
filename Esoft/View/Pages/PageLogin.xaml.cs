@@ -28,8 +28,7 @@ namespace WpfApp1.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int age;
-            ViewControl.Convert(tb.Text, out age, 0);
+            int? age = ViewControl.ConvertToIntOrNull(tb.Text, 0);
         }
     }
 }

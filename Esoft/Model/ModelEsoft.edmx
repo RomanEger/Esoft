@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="esoftDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище esoftDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="Id" />
@@ -54,6 +54,7 @@
           <Property Name="NumberOfStroyes" Type="int" />
           <Property Name="NumberOfRooms" Type="int" />
           <Property Name="TotalArea" Type="float" />
+          <Property Name="IdTypeOfEstate" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Offers">
           <Key>
@@ -118,6 +119,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Estates__IdTypeO__5AEE82B9">
+          <End Role="TypesOfEstates" Type="Self.TypesOfEstates" Multiplicity="1" />
+          <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfEstates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estates">
+              <PropertyRef Name="IdTypeOfEstate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Offers__IdClient__5812160E">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
           <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
@@ -127,18 +140,6 @@
             </Principal>
             <Dependent Role="Offers">
               <PropertyRef Name="IdClient" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Offers__IdEstate__59FA5E80">
-          <End Role="Estates" Type="Self.Estates" Multiplicity="1" />
-          <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estates">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Offers">
-              <PropertyRef Name="IdEstate" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -154,7 +155,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="esoftDBModelStoreContainer">
+        <EntityContainer Name="Хранилище esoftDBModelContainer">
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Demands" EntityType="Self.Demands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estates" EntityType="Self.Estates" Schema="dbo" store:Type="Tables" />
@@ -173,12 +174,12 @@
             <End Role="TypesOfEstates" EntitySet="TypesOfEstates" />
             <End Role="Demands" EntitySet="Demands" />
           </AssociationSet>
+          <AssociationSet Name="FK__Estates__IdTypeO__5AEE82B9" Association="Self.FK__Estates__IdTypeO__5AEE82B9">
+            <End Role="TypesOfEstates" EntitySet="TypesOfEstates" />
+            <End Role="Estates" EntitySet="Estates" />
+          </AssociationSet>
           <AssociationSet Name="FK__Offers__IdClient__5812160E" Association="Self.FK__Offers__IdClient__5812160E">
             <End Role="Clients" EntitySet="Clients" />
-            <End Role="Offers" EntitySet="Offers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Offers__IdEstate__59FA5E80" Association="Self.FK__Offers__IdEstate__59FA5E80">
-            <End Role="Estates" EntitySet="Estates" />
             <End Role="Offers" EntitySet="Offers" />
           </AssociationSet>
           <AssociationSet Name="FK__Offers__IdRealto__59063A47" Association="Self.FK__Offers__IdRealto__59063A47">
@@ -213,21 +214,21 @@
           <Property Name="IdTypeOfEstate" Type="Int32" Nullable="false" />
           <Property Name="MinPrice" Type="Int32" />
           <Property Name="MaxPrice" Type="Int32" />
+          <Property Name="MinTotalArea" Type="Double" />
+          <Property Name="MaxTotalArea" Type="Double" />
           <Property Name="MinNumbOfRooms" Type="Int32" />
           <Property Name="MaxNumbOfRooms" Type="Int32" />
           <Property Name="MinFloorNumber" Type="Int32" />
           <Property Name="MaxFloorNumber" Type="Int32" />
           <Property Name="MinNumbOfStroyes" Type="Int32" />
           <Property Name="MaxNumbOfStroyes" Type="Int32" />
-          <NavigationProperty Name="Client" Relationship="Self.FK__Demands__IdClien__6477ECF3" FromRole="Demands" ToRole="Clients" />
-          <NavigationProperty Name="Realtor" Relationship="Self.FK__Demands__IdRealt__656C112C" FromRole="Demands" ToRole="Realtors" />
-          <NavigationProperty Name="TypesOfEstate" Relationship="Self.FK__Demands__IdTypeO__66603565" FromRole="Demands" ToRole="TypesOfEstate" />
           <Property Name="CityAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StreetAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HouseNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="ApartmentNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="MinTotalArea" Type="Double" />
-          <Property Name="MaxTotalArea" Type="Double" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Demands__IdClien__6477ECF3" FromRole="Demands" ToRole="Clients" />
+          <NavigationProperty Name="Realtor" Relationship="Self.FK__Demands__IdRealt__656C112C" FromRole="Demands" ToRole="Realtors" />
+          <NavigationProperty Name="TypesOfEstate" Relationship="Self.FK__Demands__IdTypeO__66603565" FromRole="Demands" ToRole="TypesOfEstates" />
         </EntityType>
         <EntityType Name="Estate">
           <Key>
@@ -243,8 +244,10 @@
           <Property Name="FloorNumber" Type="Int32" />
           <Property Name="NumberOfStroyes" Type="Int32" />
           <Property Name="NumberOfRooms" Type="Int32" />
-          <NavigationProperty Name="Offers" Relationship="Self.FK__Offers__IdEstate__59FA5E80" FromRole="Estates" ToRole="Offers" />
           <Property Name="TotalArea" Type="Double" />
+          <NavigationProperty Name="Offers" Relationship="Self.FK__Offers__IdEstate__59FA5E80" FromRole="Estates" ToRole="Offers" />
+          <Property Name="IdTypeOfEstate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TypesOfEstate" Relationship="esoftDBModel.FK__Estates__IdTypeO__5AEE82B9" FromRole="Estate" ToRole="TypesOfEstate" />
         </EntityType>
         <EntityType Name="Offer">
           <Key>
@@ -277,7 +280,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Demands" Relationship="Self.FK__Demands__IdTypeO__66603565" FromRole="TypesOfEstate" ToRole="Demands" />
+          <NavigationProperty Name="Demands" Relationship="Self.FK__Demands__IdTypeO__66603565" FromRole="TypesOfEstates" ToRole="Demands" />
+          <NavigationProperty Name="Estates" Relationship="esoftDBModel.FK__Estates__IdTypeO__5AEE82B9" FromRole="TypesOfEstate" ToRole="Estate" />
         </EntityType>
         <Association Name="FK__Demands__IdClien__6477ECF3">
           <End Role="Clients" Type="Self.Client" Multiplicity="1" />
@@ -316,10 +320,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Demands__IdTypeO__66603565">
-          <End Role="TypesOfEstate" Type="Self.TypesOfEstate" Multiplicity="1" />
+          <End Role="TypesOfEstates" Type="Self.TypesOfEstate" Multiplicity="1" />
           <End Role="Demands" Type="Self.Demand" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TypesOfEstate">
+            <Principal Role="TypesOfEstates">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Demands">
@@ -371,7 +375,7 @@
             <End Role="Demands" EntitySet="Demands" />
           </AssociationSet>
           <AssociationSet Name="FK__Demands__IdTypeO__66603565" Association="Self.FK__Demands__IdTypeO__66603565">
-            <End Role="TypesOfEstate" EntitySet="TypesOfEstates" />
+            <End Role="TypesOfEstates" EntitySet="TypesOfEstates" />
             <End Role="Demands" EntitySet="Demands" />
           </AssociationSet>
           <AssociationSet Name="FK__Offers__IdEstate__59FA5E80" Association="Self.FK__Offers__IdEstate__59FA5E80">
@@ -382,98 +386,116 @@
             <End Role="Realtors" EntitySet="Realtors" />
             <End Role="Offers" EntitySet="Offers" />
           </AssociationSet>
+          <AssociationSet Name="FK__Estates__IdTypeO__5AEE82B9" Association="esoftDBModel.FK__Estates__IdTypeO__5AEE82B9">
+            <End Role="TypesOfEstate" EntitySet="TypesOfEstates" />
+            <End Role="Estate" EntitySet="Estates" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__Estates__IdTypeO__5AEE82B9">
+          <End Type="esoftDBModel.TypesOfEstate" Role="TypesOfEstate" Multiplicity="1" />
+          <End Type="esoftDBModel.Estate" Role="Estate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfEstate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estate">
+              <PropertyRef Name="IdTypeOfEstate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="esoftDBModelStoreContainer" CdmEntityContainer="esoftDBEntities">
-    <EntitySetMapping Name="Clients">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.Client)">
-        <MappingFragment StoreEntitySet="Clients">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Demands">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.Demand)">
-        <MappingFragment StoreEntitySet="Demands">
-          <ScalarProperty Name="MaxTotalArea" ColumnName="MaxTotalArea" />
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище esoftDBModelContainer" CdmEntityContainer="esoftDBEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="esoftDBModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Demands">
+            <EntityTypeMapping TypeName="esoftDBModel.Demand">
+              <MappingFragment StoreEntitySet="Demands">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="IdRealtor" ColumnName="IdRealtor" />
+                <ScalarProperty Name="IdTypeOfEstate" ColumnName="IdTypeOfEstate" />
+                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+                <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
                 <ScalarProperty Name="MinTotalArea" ColumnName="MinTotalArea" />
+                <ScalarProperty Name="MaxTotalArea" ColumnName="MaxTotalArea" />
+                <ScalarProperty Name="MinNumbOfRooms" ColumnName="MinNumbOfRooms" />
+                <ScalarProperty Name="MaxNumbOfRooms" ColumnName="MaxNumbOfRooms" />
+                <ScalarProperty Name="MinFloorNumber" ColumnName="MinFloorNumber" />
+                <ScalarProperty Name="MaxFloorNumber" ColumnName="MaxFloorNumber" />
+                <ScalarProperty Name="MinNumbOfStroyes" ColumnName="MinNumbOfStroyes" />
+                <ScalarProperty Name="MaxNumbOfStroyes" ColumnName="MaxNumbOfStroyes" />
+                <ScalarProperty Name="CityAddress" ColumnName="CityAddress" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
+                <ScalarProperty Name="ApartmentNumber" ColumnName="ApartmentNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estates">
+            <EntityTypeMapping TypeName="esoftDBModel.Estate">
+              <MappingFragment StoreEntitySet="Estates">
+                <ScalarProperty Name="IdTypeOfEstate" ColumnName="IdTypeOfEstate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="IdClient" ColumnName="IdClient" />
-          <ScalarProperty Name="IdRealtor" ColumnName="IdRealtor" />
-          <ScalarProperty Name="IdTypeOfEstate" ColumnName="IdTypeOfEstate" />
-          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
-          <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
-          <ScalarProperty Name="MinNumbOfRooms" ColumnName="MinNumbOfRooms" />
-          <ScalarProperty Name="MaxNumbOfRooms" ColumnName="MaxNumbOfRooms" />
-          <ScalarProperty Name="MinFloorNumber" ColumnName="MinFloorNumber" />
-          <ScalarProperty Name="MaxFloorNumber" ColumnName="MaxFloorNumber" />
-          <ScalarProperty Name="MinNumbOfStroyes" ColumnName="MinNumbOfStroyes" />
-          <ScalarProperty Name="MaxNumbOfStroyes" ColumnName="MaxNumbOfStroyes" />
-          <ScalarProperty Name="CityAddress" ColumnName="CityAddress" />
-          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
-          <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
-          <ScalarProperty Name="ApartmentNumber" ColumnName="ApartmentNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Estates">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.Estate)">
-        <MappingFragment StoreEntitySet="Estates">
-          <ScalarProperty Name="TotalArea" ColumnName="TotalArea" />
+                <ScalarProperty Name="CityAddress" ColumnName="CityAddress" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
+                <ScalarProperty Name="ApartmentNumber" ColumnName="ApartmentNumber" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longtitude" ColumnName="Longtitude" />
+                <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
+                <ScalarProperty Name="NumberOfStroyes" ColumnName="NumberOfStroyes" />
+                <ScalarProperty Name="NumberOfRooms" ColumnName="NumberOfRooms" />
+                <ScalarProperty Name="TotalArea" ColumnName="TotalArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offers">
+            <EntityTypeMapping TypeName="esoftDBModel.Offer">
+              <MappingFragment StoreEntitySet="Offers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CityAddress" ColumnName="CityAddress" />
-          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
-          <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
-          <ScalarProperty Name="ApartmentNumber" ColumnName="ApartmentNumber" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-          <ScalarProperty Name="Longtitude" ColumnName="Longtitude" />
-          <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
-          <ScalarProperty Name="NumberOfStroyes" ColumnName="NumberOfStroyes" />
-          <ScalarProperty Name="NumberOfRooms" ColumnName="NumberOfRooms" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Offers">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.Offer)">
-        <MappingFragment StoreEntitySet="Offers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="IdClient" ColumnName="IdClient" />
-          <ScalarProperty Name="IdRealtor" ColumnName="IdRealtor" />
-          <ScalarProperty Name="IdEstate" ColumnName="IdEstate" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Realtors">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.Realtor)">
-        <MappingFragment StoreEntitySet="Realtors">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-          <ScalarProperty Name="Commission" ColumnName="Commission" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TypesOfEstates">
-      <EntityTypeMapping TypeName="IsTypeOf(esoftDBModel.TypesOfEstate)">
-        <MappingFragment StoreEntitySet="TypesOfEstates">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="IdRealtor" ColumnName="IdRealtor" />
+                <ScalarProperty Name="IdEstate" ColumnName="IdEstate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Realtors">
+            <EntityTypeMapping TypeName="esoftDBModel.Realtor">
+              <MappingFragment StoreEntitySet="Realtors">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesOfEstates">
+            <EntityTypeMapping TypeName="esoftDBModel.TypesOfEstate">
+              <MappingFragment StoreEntitySet="TypesOfEstates">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -487,7 +509,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
       </DesignerInfoPropertySet>
     </Options>

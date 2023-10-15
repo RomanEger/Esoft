@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1773a950c3cb4ebab8806ac2ddb2c966" Name="Diagram1">
+      <Diagram DiagramId="04de0cce117b47b0ba524c6a1de30542" Name="Diagram1">
         <EntityTypeShape EntityType="esoftDBModel.Client" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="esoftDBModel.Demand" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="esoftDBModel.Demand" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="esoftDBModel.Estate" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="esoftDBModel.Offer" Width="1.5" PointX="6" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="esoftDBModel.Realtor" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
@@ -17,6 +17,7 @@
         <AssociationConnector Association="esoftDBModel.FK__Demands__IdTypeO__66603565" ManuallyRouted="false" />
         <AssociationConnector Association="esoftDBModel.FK__Offers__IdEstate__59FA5E80" ManuallyRouted="false" />
         <AssociationConnector Association="esoftDBModel.FK__Offers__IdRealto__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="esoftDBModel.FK__Estates__IdTypeO__5AEE82B9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

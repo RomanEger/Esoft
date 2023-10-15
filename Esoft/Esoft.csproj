@@ -209,13 +209,6 @@
       <DependentUpon>ModelEsoft.edmx</DependentUpon>
       <LastGenOutput>ModelEsoft.cs</LastGenOutput>
     </Content>
-    <Content Include="MyDataBase\esoftDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MyDataBase\esoftDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>esoftDB.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
