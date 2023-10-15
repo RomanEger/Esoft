@@ -30,7 +30,7 @@ namespace Esoft.Model
         public Nullable<int> FloorNumber { get; set; }
         public Nullable<int> NumberOfStroyes { get; set; }
         public Nullable<int> NumberOfRooms { get; set; }
-        public Nullable<double> ApartmentArea { get; set; }
+        public Nullable<double> TotalArea { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offers { get; set; }

@@ -203,6 +203,7 @@
       <DependentUpon>ModelEsoft.edmx</DependentUpon>
       <LastGenOutput>ModelEsoft.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Model\ModelEsoft.sql" />
     <Content Include="Model\ModelEsoft.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelEsoft.edmx</DependentUpon>

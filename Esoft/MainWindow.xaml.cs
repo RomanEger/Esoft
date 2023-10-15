@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Esoft.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,8 @@ namespace Esoft
             ViewControl.frame = frameMain;
 
             frameMain.Navigate(new PageParse());
+
+            ModelControl.esoftDB = new esoftDBEntities();
         }
     }
 }

@@ -16,15 +16,22 @@
                     Height="36"
                     Background="Aqua"
                     Click="Button_Click"
-                    Style="{StaticResource baseStyle}"/>
-            <TextBox x:Name="tbFile"
-                     Margin="15"
-                     Width="250"
-                     Height="50"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Visible"
-                     Style="{StaticResource textBoxStyle}"/>
+                    Margin="15"
+                    Style="{StaticResource paragraphTextStyle}"/>
+            <ComboBox Name="cmbFile"
+                      Width="100"
+                      Height="36"
+                      Background="Aqua"
+                      Margin="15"
+                      Style="{StaticResource paragraphTextStyle}"/>
+            <Button Content="Добавить"
+                    Name="btnAdd"
+                    Width="100"
+                    Height="36"
+                    Background="Aqua"
+                    Click="btnAdd_Click"
+                    Margin="15"
+                    Style="{StaticResource paragraphTextStyle}"/>
         </StackPanel>
 
     </Grid>

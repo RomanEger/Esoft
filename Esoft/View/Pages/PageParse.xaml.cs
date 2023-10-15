@@ -24,19 +24,18 @@ namespace WpfApp1.View.Pages
     public partial class PageParse : Page
     {
         ModelControl modelControl;
+        string[] filedata;
+        string[][] data;
 
         public PageParse()
         {
             InitializeComponent();
             modelControl = new ModelControl();
+            cmbFile.ItemsSource = new List<string>() { "Дом", "Квартира", "Земля"};
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            string[] filedata;
-            string[][] data;
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if(openFileDialog.ShowDialog() == true)
             {
@@ -46,9 +45,21 @@ namespace WpfApp1.View.Pages
                 {
                     data[i] = filedata[i].Split(',');
                 }
-                modelControl.AddData(data, 0);
+                //modelControl.AddEstate(data, cmbFile.SelectedIndex);
             }
             
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbFile.SelectedItem != null &&
+               data.Length > 0)
+                modelControl.AddEstate(data, cmbFile.SelectedIndex);
+            else if (data.Length == 0)
+                MessageBox.Show("Файл не содержит данных");
+            else if (cmbFile.SelectedItem == null)
+                MessageBox.Show("Выберите тип недвижимости");
+
         }
     }
 }
