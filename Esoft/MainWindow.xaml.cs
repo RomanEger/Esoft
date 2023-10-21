@@ -1,4 +1,5 @@
 ﻿using Esoft.Model;
+using Esoft.View.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Esoft
 
             ViewControl.frame = frameMain;
 
-            frameMain.Navigate(new PageParse());
+            frameMain.Navigate(new PageAddClient());
 
             ModelControl.esoftDB = new esoftDBEntities();
         }

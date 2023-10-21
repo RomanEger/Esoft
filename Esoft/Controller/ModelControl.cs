@@ -37,11 +37,11 @@ namespace WpfApp1.Controller
             {
                 string lastName, firstName, patronymic, email, mobileNumber;
 
-                lastName = GetStringOrNullData(data[1]);
-                firstName = GetStringOrNullData(data[2]);
-                patronymic = GetStringOrNullData(data[3]);
-                email = GetStringOrNullData(data[4]);
-                mobileNumber = GetStringOrNullData(data[5]);
+                lastName = GetStringOrNullData(data[0]);
+                firstName = GetStringOrNullData(data[1]);
+                patronymic = GetStringOrNullData(data[2]);
+                email = GetStringOrNullData(data[3]);
+                mobileNumber = GetStringOrNullData(data[4]);
 
                 int count = esoftDB.Clients.Where(x =>
                     (x.LastName == lastName) &&
@@ -381,10 +381,10 @@ namespace WpfApp1.Controller
             try
             {
                 string[] dataArr = data.Split(new char[]{',', ' '});
-                if ((data[0] > 48 || data[0] < 57) && !IsUnique.Client(dataArr))
+                if ((data[0] > 48 || data[0] < 57) && IsUnique.Client(dataArr))
                 {
-                    string email = GetStringOrNullData(dataArr[4]);
-                    string mobileNumber = GetStringOrNullData(dataArr[5]);
+                    string email = GetStringOrNullData(dataArr[3]);
+                    string mobileNumber = GetStringOrNullData(dataArr[4]);
 
                     if (email == null && mobileNumber == null)
                     {
@@ -394,9 +394,9 @@ namespace WpfApp1.Controller
 
                     Client client = new Client()
                     {
-                        LastName = GetStringOrNullData(dataArr[1]),
-                        FirstName = GetStringOrNullData(dataArr[2]),
-                        Patronymic = GetStringOrNullData(dataArr[3]),
+                        LastName = GetStringOrNullData(dataArr[0]),
+                        FirstName = GetStringOrNullData(dataArr[1]),
+                        Patronymic = GetStringOrNullData(dataArr[2]),
                         Email = email,
                         MobileNumber = mobileNumber
                     };
@@ -410,49 +410,49 @@ namespace WpfApp1.Controller
             }
         }
 
-        public void AddClient(string[][] dataArr)
-        {
-            try
-            {
-                for (int i = 0; i < dataArr.Length; i++)
-                {
-                    if (dataArr[i][0].ToCharArray()[0] < 48 ||
-                        dataArr[i][0].ToCharArray()[0] > 57)
-                        continue;
+        //public void AddClient(string[][] dataArr)
+        //{
+        //    try
+        //    {
+        //        for (int i = 0; i < dataArr.Length; i++)
+        //        {
+        //            if (dataArr[i][0].ToCharArray()[0] < 48 ||
+        //                dataArr[i][0].ToCharArray()[0] > 57)
+        //                continue;
 
-                    if (i > 0 && !IsUnique.Client(dataArr[i]))
-                        continue;
-                    else if (!IsUnique.Client(dataArr[i]))
-                        continue;
+        //            if (i > 0 && !IsUnique.Client(dataArr[i]))
+        //                continue;
+        //            else if (!IsUnique.Client(dataArr[i]))
+        //                continue;
 
 
-                    string email = GetStringOrNullData(dataArr[i][4]);
-                    string mobileNumber = GetStringOrNullData(dataArr[i][5]);
+        //            string email = GetStringOrNullData(dataArr[i][4]);
+        //            string mobileNumber = GetStringOrNullData(dataArr[i][5]);
 
-                    if (email == null && mobileNumber == null)
-                    {
-                        MessageBox.Show("Необходимо ввести номер телефона или адрес электронной почты", "Ошибка");
-                        continue;
-                    }
+        //            if (email == null && mobileNumber == null)
+        //            {
+        //                MessageBox.Show("Необходимо ввести номер телефона или адрес электронной почты", "Ошибка");
+        //                continue;
+        //            }
 
-                    Client client = new Client()
-                    {
-                        LastName = GetStringOrNullData(dataArr[i][1]),
-                        FirstName = GetStringOrNullData(dataArr[i][2]),
-                        Patronymic = GetStringOrNullData(dataArr[i][3]),
-                        Email = email,
-                        MobileNumber = mobileNumber
-                    };
-                    esoftDB.Clients.Add(client);
-                }
-                SaveChangesDB();
+        //            Client client = new Client()
+        //            {
+        //                LastName = GetStringOrNullData(dataArr[i][1]),
+        //                FirstName = GetStringOrNullData(dataArr[i][2]),
+        //                Patronymic = GetStringOrNullData(dataArr[i][3]),
+        //                Email = email,
+        //                MobileNumber = mobileNumber
+        //            };
+        //            esoftDB.Clients.Add(client);
+        //        }
+        //        SaveChangesDB();
 
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Ошибка");
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message, "Ошибка");
+        //    }
+        //}
 
     }
 }

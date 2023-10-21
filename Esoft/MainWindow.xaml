@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Esoft"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="465.96" Width="800"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Frame Name="frameMain"
-               NavigationUIVisibility="Hidden" 
+               NavigationUIVisibility="Hidden"
                Height="450"/>
     </Grid>
 </Window>
