@@ -7,6 +7,7 @@
         <Style TargetType="{x:Type Control}"
                x:Key="baseStyle">
             <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="Margin" Value="15"/>
         </Style>
 
 

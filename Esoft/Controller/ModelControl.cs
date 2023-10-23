@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
@@ -12,9 +13,11 @@ namespace WpfApp1.Controller
 {
     class ModelControl
     {
+        public static esoftDBEntities esoftDB;
+
         protected class IsUnique
         {
-            public static bool Estate(string[] data)
+            public async Task<bool> Estate(string[] data)
             {
                 string cityAddress, streetAddress, houseNumber, apartmentNumber;
                 cityAddress = GetStringOrNullData(data[1]);
@@ -22,18 +25,18 @@ namespace WpfApp1.Controller
                 houseNumber = GetStringOrNullData(data[3]);
                 apartmentNumber = GetStringOrNullData(data[4]);
 
-                int count = esoftDB.Estates.Where(x =>
+                int count = await esoftDB.Estates.Where(x =>
                     (x.CityAddress == cityAddress) &&
                     (x.StreetAddress == streetAddress) &&
                     (x.HouseNumber == houseNumber) &&
                     (x.ApartmentNumber == apartmentNumber)
-                    ).Count();
+                    ).CountAsync();
                 if(count == 0)
                     return true;
                 return false;
             }
 
-            public static bool Client(string[] data)
+            public async Task<bool> Client(string[] data)
             {
                 string lastName, firstName, patronymic, email, mobileNumber;
 
@@ -43,19 +46,43 @@ namespace WpfApp1.Controller
                 email = GetStringOrNullData(data[3]);
                 mobileNumber = GetStringOrNullData(data[4]);
 
-                int count = esoftDB.Clients.Where(x =>
+                int count = await esoftDB.Clients.Where(x =>
                     (x.LastName == lastName) &&
                     (x.FirstName == firstName) &&
                     (x.Patronymic == patronymic) &&
                     (x.Email == email) &&
                     (x.MobileNumber == mobileNumber)
-                    ).Count();
+                    ).CountAsync();
+
+                bool isUniqueEmail = await ClientEmailAsync(email);
+
+                bool isUnqiueMobileNumber = await ClientMobileNumberAsync(mobileNumber);
+
                 if (count == 0)
                     return true;
                 return false;
             }
 
-            public static bool Realtor(string[] data)
+            private async Task<bool> ClientEmailAsync(string email)
+            {
+                int count = await esoftDB.Clients.Where(x => x.Email == email).CountAsync();
+
+                if(count == 0) 
+                    return true;
+                return false;
+            }
+
+            private async Task<bool> ClientMobileNumberAsync(string mobileNumber)
+            {
+                int count = await esoftDB.Clients.Where(x => x.MobileNumber == mobileNumber).CountAsync();
+
+                if (count == 0)
+                    return true;
+                return false;
+            }
+
+
+            public async Task<bool> Realtor(string[] data)
             {
                 string lastName, firstName, patronymic;
 
@@ -64,25 +91,35 @@ namespace WpfApp1.Controller
                 patronymic = GetStringOrNullData(data[3]);
                 int? commission = ViewControl.ConvertToIntOrNull(data[4], 0, 100);
 
-                int count = esoftDB.Realtors.Where(x =>
+                int count = await esoftDB.Realtors.Where(x =>
                     (x.LastName == lastName) &&
                     (x.FirstName == firstName) &&
                     (x.Patronymic == patronymic) &&
                     (x.Commission == commission)
-                    ).Count();
+                    ).CountAsync();
                 if (count == 0)
                     return true;
                 return false;
             }
+
+            public async Task<bool> Offer(string[] data)
+            {
+                return true;
+            }
+
+            public async Task<bool> Demand(string[] data)
+            {
+                return true;
+            }
         }
         
-        public static esoftDBEntities esoftDB;
+        IsUnique isUniqueObj = new IsUnique();
 
-        public static void SaveChangesDB()
+        public async static void SaveChangesDB()
         {
             try
             {
-                esoftDB.SaveChanges();
+                await esoftDB.SaveChangesAsync();
                 MessageBox.Show("Изменения успешно сохранены.", "Успех");
             }
             catch (Exception ex)
@@ -100,7 +137,7 @@ namespace WpfApp1.Controller
         }
 
 
-        public void AddEstate(string data, int idTypeOfEstate)
+        public async void AddEstate(string data, int idTypeOfEstate)
         {
             try
             {
@@ -109,8 +146,8 @@ namespace WpfApp1.Controller
                 {
                     case 0: //house
                         {
-
-                            if ((data[0] > 48 || data[0] < 57) && !IsUnique.Estate(dataSplit))
+                            bool isUnique = await isUniqueObj.Estate(dataSplit);
+                            if ((data[0] > 48 || data[0] < 57) && !isUnique)
                             { 
                                 Estate estate = new Estate()
                                 {
@@ -132,8 +169,8 @@ namespace WpfApp1.Controller
                         break;
                     case 1: //appartment
                         {
-
-                            if ((data[0] > 48 || data[0] < 57) && !IsUnique.Estate(dataSplit))
+                            bool isUnique = await isUniqueObj.Estate(dataSplit);
+                            if ((data[0] > 48 || data[0] < 57) && !isUnique)
                             {
                                 
                                 Estate estate = new Estate()
@@ -156,7 +193,8 @@ namespace WpfApp1.Controller
                         break;
                     case 2: //land
                         {
-                            if ((data[0] > 48 || data[0] < 57) && !IsUnique.Estate(dataSplit))
+                            bool isUnique = await isUniqueObj.Estate(dataSplit);
+                            if ((data[0] > 48 || data[0] < 57) && !isUnique)
                             {
                                 Estate estate = new Estate()
                                 {
@@ -186,7 +224,7 @@ namespace WpfApp1.Controller
             }
         }
 
-        public void AddEstate(string[][] dataArr, int idTypeOfEstate)
+        public async void AddEstate(string[][] dataArr, int idTypeOfEstate)
         {
             try
             {
@@ -199,9 +237,9 @@ namespace WpfApp1.Controller
                                 if (dataArr[i][0].ToCharArray()[0] < 48 || 
                                     dataArr[i][0].ToCharArray()[0] > 57)
                                     continue;
-                                if (i > 0 && !IsUnique.Estate(dataArr[i]))
-                                    continue;
-                                else if (!IsUnique.Estate(dataArr[i]))
+
+                                bool isUnique = await isUniqueObj.Estate(dataArr[i]);
+                                if (i > 0 && !isUnique)
                                     continue;
                                 Estate estate = new Estate()
                                 {
@@ -224,11 +262,11 @@ namespace WpfApp1.Controller
                         {
                             for (int i = 0; i < dataArr.Length; i++)
                             {
-                                if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
+                                if (dataArr[i][0].ToCharArray()[0] < 48 || 
+                                    dataArr[i][0].ToCharArray()[0] > 57)
                                     continue;
-                                if (i > 0 && !IsUnique.Estate(dataArr[i]))
-                                    continue;
-                                else if (!IsUnique.Estate(dataArr[i]))
+                                bool isUnique = await isUniqueObj.Estate(dataArr[i]);
+                                if (i > 0 && !isUnique)
                                     continue;
                                 Estate estate = new Estate()
                                 {
@@ -254,9 +292,8 @@ namespace WpfApp1.Controller
                             {
                                 if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
                                     continue;
-                                if (i > 0 && !IsUnique.Estate(dataArr[i]))
-                                    continue;
-                                else if (!IsUnique.Estate(dataArr[i]))
+                                bool isUnique = await isUniqueObj.Estate(dataArr[i]);
+                                if (i > 0 && !isUnique)
                                     continue;
                                 Estate estate = new Estate()
                                 {
@@ -290,7 +327,7 @@ namespace WpfApp1.Controller
 
 
 
-        public void AddDemand(string data)
+        public async void AddDemand(string data)
         {
             string[] dataArr = data.Split(',');
             for (int i = 0; i < dataArr.Length; i++)
@@ -307,27 +344,122 @@ namespace WpfApp1.Controller
             SaveChangesDB();
         }
 
-        public void AddDemand(string[][] dataArr)
+        public async void AddDemand(string[][] dataArr, int idTypeOfEstate)
         {
-            for (int i = 0; i < dataArr.Length; i++)
+            try
             {
-                if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
-                    continue;
-                Demand demand = new Demand()
+                switch (idTypeOfEstate)
                 {
-                    CityAddress = dataArr[i][1],
+                    case 0: //house
+                        {
+                            for (int i = 0; i < dataArr.Length; i++)
+                            {
+                                if (dataArr[i][0].ToCharArray()[0] < 48 ||
+                                    dataArr[i][0].ToCharArray()[0] > 57)
+                                    continue;
+                                bool isUnique = await isUniqueObj.Demand(dataArr[i]);
+                                if (i > 0 && !isUnique)
+                                    continue;
+                                Demand demand = new Demand()
+                                {
+                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    IdRealtor = int.Parse(dataArr[i][7]),
+                                    IdClient = int.Parse(dataArr[i][8]),
+                                    MinNumbOfStroyes = ViewControl.ConvertToIntOrNull(dataArr[i][9]),
+                                    MaxNumbOfStroyes = ViewControl.ConvertToIntOrNull(dataArr[i][10]),
+                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][11]),
+                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][12]),
+                                    MinNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][13]),
+                                    MaxNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][14]),
+                                    IdTypeOfEstate = 1
+                                };
+                                esoftDB.Demands.Add(demand);
+                            }
+                            SaveChangesDB();
+                        }
+                        break;
+                    case 1: //appartment
+                        {
+                            for (int i = 0; i < dataArr.Length; i++)
+                            {
+                                if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
+                                    continue;
+                                bool isUnique = await isUniqueObj.Demand(dataArr[i]);
+                                if (i > 0 && !isUnique)
+                                    continue;
+                                Demand demand = new Demand()
+                                {
+                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    IdRealtor = int.Parse(dataArr[i][7]),
+                                    IdClient = int.Parse(dataArr[i][8]),
+                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][9]),
+                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][10]),
+                                    MinNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][11]),
+                                    MaxNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][12]),
+                                    MinFloorNumber = ViewControl.ConvertToIntOrNull(dataArr[i][13]),
+                                    MaxFloorNumber = ViewControl.ConvertToIntOrNull(dataArr[i][14]),
+                                    IdTypeOfEstate = 2
+                                };
+                                esoftDB.Demands.Add(demand);
+                            }
+                            SaveChangesDB();
+                        }
+                        break;
+                    case 2: //land
+                        {
+                            for (int i = 0; i < dataArr.Length; i++)
+                            {
+                                if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
+                                    continue;
+                                bool isUnique = await isUniqueObj.Demand(dataArr[i]);
+                                if (i > 0 && !isUnique)
+                                    continue;
+                                Demand demand = new Demand()
+                                {
+                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    IdRealtor = int.Parse(dataArr[i][7]),
+                                    IdClient = int.Parse(dataArr[i][8]),
+                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][9]),
+                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][10]),
+                                    IdTypeOfEstate = 3
+                                };
+                                esoftDB.Demands.Add(demand);
+                            }
+                            SaveChangesDB();
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
-                };
-                esoftDB.Demands.Add(demand);
+
             }
-            SaveChangesDB();
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка");
+            }
         }
 
 
 
 
 
-        public void AddOffer(string data)
+        public async void AddOffer(string data)
         {
             string[] dataArr = data.Split(',');
             for (int i = 0; i < dataArr.Length; i++)
@@ -344,44 +476,53 @@ namespace WpfApp1.Controller
             SaveChangesDB();
         }
 
-        public void AddOffer(string[][] dataArr)
+        public async void AddOffer(string[][] dataArr)
         {
-            for (int i = 0; i < dataArr.Length; i++)
+            try
             {
-                if (dataArr[i][0].ToCharArray()[0] < 48 || dataArr[i][0].ToCharArray()[0] > 57)
-                    continue;
-                Offer offer = new Offer()
+                for (int i = 0; i < dataArr.Length; i++)
                 {
-
-                };
-                esoftDB.Offers.Add(offer);
+                    if (dataArr[i][0].ToCharArray()[0] < 48 ||
+                        dataArr[i][0].ToCharArray()[0] > 57)
+                        continue;
+                    bool isUnique = await isUniqueObj.Offer(dataArr[i]);
+                    if (i > 0 && !isUnique)
+                        continue;
+                    Offer offer = new Offer()
+                    {
+                        Price = int.Parse(dataArr[i][1]),
+                        IdRealtor = int.Parse(dataArr[i][2]),
+                        IdClient = int.Parse(dataArr[i][3]),
+                        IdEstate = int.Parse(dataArr[i][4])
+                    };
+                    esoftDB.Offers.Add(offer);
+                }
+                SaveChangesDB();
             }
-            SaveChangesDB();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
+            
         }
 
 
 
 
 
-        public void AddRealtor(string data)
+        public async void AddRealtor(string data)
         {
 
         }
 
-        public void AddRealtor(string[][] dataArr)
-        {
 
-        }
-
-
-
-
-        public void AddClient(string data)
+        public async void AddClient(string data)
         {
             try
             {
                 string[] dataArr = data.Split(new char[]{',', ' '});
-                if ((data[0] > 48 || data[0] < 57) && IsUnique.Client(dataArr))
+                bool isUnique = await isUniqueObj.Client(dataArr);
+                if ((data[0] > 48 || data[0] < 57) && isUnique)
                 {
                     string email = GetStringOrNullData(dataArr[3]);
                     string mobileNumber = GetStringOrNullData(dataArr[4]);

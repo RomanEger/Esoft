@@ -130,8 +130,8 @@
     <Compile Include="View\Alerts\PageError.xaml.cs">
       <DependentUpon>PageError.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\PageAddClient.xaml.cs">
-      <DependentUpon>PageAddClient.xaml</DependentUpon>
+    <Compile Include="View\Pages\PageManageClient.xaml.cs">
+      <DependentUpon>PageManageClient.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\PageLogin.xaml.cs">
       <DependentUpon>PageLogin.xaml</DependentUpon>
@@ -159,7 +159,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Pages\PageAddClient.xaml">
+    <Page Include="View\Pages\PageManageClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

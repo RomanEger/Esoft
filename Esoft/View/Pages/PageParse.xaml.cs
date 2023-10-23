@@ -74,6 +74,7 @@ namespace WpfApp1.View.Pages
                 else
                     MessageBox.Show("Выберите файл формата \".txt\" или \".csv\"");
                 //modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                labelOpenFile.Content = "Открыт файл: " +openFileDialog.SafeFileName;
             }
             
         }
@@ -84,10 +85,17 @@ namespace WpfApp1.View.Pages
             {
                 MessageBox.Show("Выберите файл");
             }
-            else if (cmbFile.SelectedItem != null &&
+            else if ((cmbFile.SelectedItem != null || rbOffer.IsChecked == true) &&
                      data.Length > 0)
             {
-                modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                if (rbEstate.IsChecked == true)
+                    modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                else if (rbOffer.IsChecked == true)
+                    modelControl.AddOffer(data);
+                else if (rbDemand.IsChecked == true)
+                    modelControl.AddDemand(data, cmbFile.SelectedIndex);
+                else
+                    MessageBox.Show("Выберите таблицу");
             }
             else if (data.Length == 0)
             {
@@ -98,6 +106,17 @@ namespace WpfApp1.View.Pages
                 MessageBox.Show("Выберите тип недвижимости");
             }
 
+        }
+
+
+        private void rbOffer_Checked(object sender, RoutedEventArgs e)
+        {
+            cmbFile.IsEnabled = false;
+        }
+
+        private void rbOffer_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cmbFile.IsEnabled = true;
         }
     }
 }

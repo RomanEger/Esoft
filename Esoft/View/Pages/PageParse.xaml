@@ -9,30 +9,56 @@
       Title="PageParce">
 
     <Grid>
+        
         <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Top"
+                    Margin="0 15">
+            <Label Content="Таблица"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource headerH5TextStyle}"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Estates"
+                             Style="{StaticResource radioButtonStyle}"
+                             Name="rbEstate"/>
+                
+                <RadioButton Content="Offers"
+                             Style="{StaticResource radioButtonStyle}"
+                             Name="rbOffer"
+                             Checked="rbOffer_Checked"
+                             Unchecked="rbOffer_Unchecked"/>
+                
+                <RadioButton Content="Demands"
+                             Style="{StaticResource radioButtonStyle}"
+                             Name="rbDemand"/>
+            </StackPanel>
             <Button Content="Открыть файл"
-                    Width="100"
-                    Height="36"
-                    Background="Aqua"
-                    Click="Button_Click"
-                    Margin="15"
-                    Style="{StaticResource paragraphTextStyle}"/>
-            <ComboBox Name="cmbFile"
-                      Width="100"
-                      Height="36"
-                      Background="Aqua"
-                      Margin="15"
-                      Style="{StaticResource paragraphTextStyle}"/>
-            <Button Content="Добавить"
-                    Name="btnAdd"
-                    Width="100"
-                    Height="36"
-                    Background="Aqua"
-                    Click="btnAdd_Click"
-                    Margin="15"
-                    Style="{StaticResource paragraphTextStyle}"/>
-        </StackPanel>
+                                Width="100"
+                                Height="36"
+                                Background="Aqua"
+                                Click="Button_Click"
+                                Margin="15"
+                                Style="{StaticResource paragraphTextStyle}"/>
+            <Label Name="labelOpenFile"
+                   HorizontalAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center"
+                               Style="{StaticResource paragraphTextStyle}"/>
 
+            <ComboBox Name="cmbFile"
+                                  Width="100"
+                                  Height="36"
+                                  Background="Aqua"
+                                  Margin="15"
+                                  Style="{StaticResource paragraphTextStyle}"/>
+            <Button Content="Добавить"
+                                Name="btnAdd"
+                                Width="100"
+                                Height="36"
+                                Background="Aqua"
+                                Click="btnAdd_Click"
+                                Margin="15"
+                                Style="{StaticResource paragraphTextStyle}"/>
+        </StackPanel>
+       
     </Grid>
 </Page>

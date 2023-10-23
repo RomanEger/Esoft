@@ -30,7 +30,7 @@ namespace Esoft
 
             ViewControl.frame = frameMain;
 
-            frameMain.Navigate(new PageAddClient());
+            frameMain.Navigate(new PageManageClient(1));
 
             ModelControl.esoftDB = new esoftDBEntities();
         }
