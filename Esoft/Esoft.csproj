@@ -87,8 +87,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controller\CRUD.cs" />
     <Compile Include="Controller\ModelControl.cs" />
+    <Compile Include="Controller\Parser.cs" />
+    <Compile Include="Controller\MyValidator.cs" />
+    <Compile Include="Controller\TableFromDB.cs" />
     <Compile Include="Controller\ViewControl.cs" />
     <Compile Include="Model\Client.cs">
       <DependentUpon>ModelEsoft.tt</DependentUpon>

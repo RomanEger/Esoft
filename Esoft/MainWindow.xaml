@@ -9,6 +9,25 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
     <Grid>
+        <Menu Width="auto"
+              Height="auto"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Left"
+              Background="Transparent"
+              Margin="-1">
+            <MenuItem Header="Undo"
+                      Name="btnUndo"
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      CommandTarget="{Binding ElementName=frameMain}"
+                      Command="Undo"/>
+            <MenuItem Header="Redo"
+                      Name="btnRedo"
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      CommandTarget="{Binding ElementName=frameMain}"
+                      Command="Redo"/>
+        </Menu>
         <Frame Name="frameMain"
                NavigationUIVisibility="Hidden"
                Height="450"/>

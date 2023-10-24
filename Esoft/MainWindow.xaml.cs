@@ -33,6 +33,18 @@ namespace Esoft
             frameMain.Navigate(new PageManageClient(1));
 
             ModelControl.esoftDB = new esoftDBEntities();
+
+            
+        }
+
+        private void btnUndo_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnRedo_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

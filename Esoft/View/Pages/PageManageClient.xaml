@@ -129,11 +129,77 @@
                 </TabItem.Content>
             </TabItem>
             <TabItem Name="tabUpdateClient">
-
+                <TabItem.Header>
+                    <Label Content="Изменение клиента"/>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Margin="15">
+                            <Label Content="Изменение клиента"
+                                   Style="{StaticResource headerH2TextStyle}"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="False"
+                                      CanUserAddRows="False"
+                                      Margin="5"
+                                      Height="250"
+                                      Name="dgClients"
+                                      Width="780"
+                                      HorizontalAlignment="Center">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="Фамилия"
+                                                        x:Name="colLastName"
+                                                        Binding="{Binding Path=LastName}"/>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="Имя"
+                                                        x:Name="colFirstName"
+                                                        Binding="{Binding Path=FirstName}"/>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="Отчество"
+                                                        x:Name="colPatronymic"
+                                                        Binding="{Binding Path=Patronymic}"/>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="Email"
+                                                        x:Name="colEmail"
+                                                        Binding="{Binding Path=Email}"/>
+                                    <DataGridTextColumn Width="*"
+                                                        Header="Номер телефона"
+                                                        x:Name="colMobileNumber"
+                                                        Binding="{Binding Path=MobileNumber}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom">
+                            <Button Name="btnSave"
+                                    Click="btnSave_Click"
+                                    Content="Сохранить изменения"
+                                    Style="{StaticResource baseStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Content>
             </TabItem>
-            <TabItem Name="tabDelClient">
+            <!--<TabItem Name="tabDelClient">
+                <TabItem.Header>
+                    <Label Content="Удаление клиента"/>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Margin="15">
+                            <Label Content="Удаление клиента"
+                                   Style="{StaticResource headerH2TextStyle}"/>
+                        </StackPanel>
 
-            </TabItem>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </Page>

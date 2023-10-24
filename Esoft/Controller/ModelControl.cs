@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
@@ -7,46 +8,67 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Esoft.Controller;
 using Esoft.Model;
+using NUnit.Framework;
 
 namespace WpfApp1.Controller
 {
     class ModelControl
     {
-        public static esoftDBEntities esoftDB;
+        public static esoftDBEntities esoftDB = new esoftDBEntities();
+
+        protected Parser parser = new Parser();
 
         protected class IsUnique
         {
+            private Parser parser = new Parser();
+
             public async Task<bool> Estate(string[] data)
             {
                 string cityAddress, streetAddress, houseNumber, apartmentNumber;
-                cityAddress = GetStringOrNullData(data[1]);
-                streetAddress = GetStringOrNullData(data[2]);
-                houseNumber = GetStringOrNullData(data[3]);
-                apartmentNumber = GetStringOrNullData(data[4]);
+                cityAddress = parser.GetStringOrNullData(data[1]);
+                streetAddress = parser.GetStringOrNullData(data[2]);
+                houseNumber = parser.GetStringOrNullData(data[3]);
+                apartmentNumber = parser.GetStringOrNullData(data[4]);
 
-                int count = await esoftDB.Estates.Where(x =>
+                
+                try
+                {
+                    int count = await esoftDB.Estates.Where(x =>
                     (x.CityAddress == cityAddress) &&
                     (x.StreetAddress == streetAddress) &&
                     (x.HouseNumber == houseNumber) &&
                     (x.ApartmentNumber == apartmentNumber)
                     ).CountAsync();
-                if(count == 0)
-                    return true;
+                    if (count == 0)
+                        return true;
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 return false;
             }
 
-            public async Task<bool> Client(string[] data)
+
+            public async Task<bool> Client(string[] data, int idOperation)
             {
                 string lastName, firstName, patronymic, email, mobileNumber;
 
-                lastName = GetStringOrNullData(data[0]);
-                firstName = GetStringOrNullData(data[1]);
-                patronymic = GetStringOrNullData(data[2]);
-                email = GetStringOrNullData(data[3]);
-                mobileNumber = GetStringOrNullData(data[4]);
+                lastName = parser.GetStringOrNullData(data[0]);
+                firstName = parser.GetStringOrNullData(data[1]);
+                patronymic = parser.GetStringOrNullData(data[2]);
+                email = parser.GetStringOrNullData(data[3]);
+                mobileNumber = parser.GetStringOrNullData(data[4]);
 
-                int count = await esoftDB.Clients.Where(x =>
+                try
+                {
+                    int count = await esoftDB.Clients.Where(x =>
                     (x.LastName == lastName) &&
                     (x.FirstName == firstName) &&
                     (x.Patronymic == patronymic) &&
@@ -54,17 +76,36 @@ namespace WpfApp1.Controller
                     (x.MobileNumber == mobileNumber)
                     ).CountAsync();
 
-                bool isUniqueEmail = await ClientEmailAsync(email);
+                    bool isUniqueEmail = await ClientEmailAsync(email);
 
-                bool isUnqiueMobileNumber = await ClientMobileNumberAsync(mobileNumber);
+                    bool isUniqueMobileNumber = await ClientMobileNumberAsync(mobileNumber);
 
-                if (count == 0)
-                    return true;
+                    bool isUniqueContacts = (email != null || mobileNumber != null) && isUniqueEmail == true && isUniqueMobileNumber == true;
+
+                    if (idOperation == 0)
+                    {
+                        if (count == 0 && isUniqueContacts == true)
+                            return true;
+                    }
+                    else if (idOperation == 1)
+                        if (count == 1 || isUniqueContacts == true)
+                            return true;
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Проблемы с базой данных");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 return false;
             }
 
             private async Task<bool> ClientEmailAsync(string email)
             {
+                if (email == null)
+                    return true;
                 int count = await esoftDB.Clients.Where(x => x.Email == email).CountAsync();
 
                 if(count == 0) 
@@ -74,6 +115,8 @@ namespace WpfApp1.Controller
 
             private async Task<bool> ClientMobileNumberAsync(string mobileNumber)
             {
+                if(mobileNumber == null)
+                    return true;
                 int count = await esoftDB.Clients.Where(x => x.MobileNumber == mobileNumber).CountAsync();
 
                 if (count == 0)
@@ -86,10 +129,10 @@ namespace WpfApp1.Controller
             {
                 string lastName, firstName, patronymic;
 
-                lastName = GetStringOrNullData(data[1]);
-                firstName = GetStringOrNullData(data[2]);
-                patronymic = GetStringOrNullData(data[3]);
-                int? commission = ViewControl.ConvertToIntOrNull(data[4], 0, 100);
+                lastName = parser.GetStringOrNullData(data[1]);
+                firstName = parser.GetStringOrNullData(data[2]);
+                patronymic = parser.GetStringOrNullData(data[3]);
+                int? commission = parser.ConvertToIntOrNull(data[4], 0, 100);
 
                 int count = await esoftDB.Realtors.Where(x =>
                     (x.LastName == lastName) &&
@@ -101,6 +144,7 @@ namespace WpfApp1.Controller
                     return true;
                 return false;
             }
+
 
             public async Task<bool> Offer(string[] data)
             {
@@ -115,7 +159,7 @@ namespace WpfApp1.Controller
         
         IsUnique isUniqueObj = new IsUnique();
 
-        public async static void SaveChangesDB()
+        public async void SaveChangesDB()
         {
             try
             {
@@ -127,15 +171,6 @@ namespace WpfApp1.Controller
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        public static string GetStringOrNullData(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                return null;
-            else
-                return data;
-        }
-
 
         public async void AddEstate(string data, int idTypeOfEstate)
         {
@@ -151,14 +186,14 @@ namespace WpfApp1.Controller
                             { 
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataSplit[1]),
-                                    StreetAddress = GetStringOrNullData(dataSplit[2]),
-                                    HouseNumber = GetStringOrNullData(dataSplit[3]),
-                                    ApartmentNumber = GetStringOrNullData(dataSplit[4]),
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
-                                    NumberOfStroyes = ViewControl.ConvertToIntOrNull(dataSplit[7], 0),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataSplit[8], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataSplit[1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataSplit[2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataSplit[3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataSplit[4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
+                                    NumberOfStroyes = parser.ConvertToIntOrNull(dataSplit[7], 0),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataSplit[8], 0),
                                     IdTypeOfEstate = 1
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -172,18 +207,17 @@ namespace WpfApp1.Controller
                             bool isUnique = await isUniqueObj.Estate(dataSplit);
                             if ((data[0] > 48 || data[0] < 57) && !isUnique)
                             {
-                                
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataSplit[1]),
-                                    StreetAddress = GetStringOrNullData(dataSplit[2]),
-                                    HouseNumber = GetStringOrNullData(dataSplit[3]),
-                                    ApartmentNumber = GetStringOrNullData(dataSplit[4]),
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataSplit[7], 0),
-                                    NumberOfRooms = ViewControl.ConvertToIntOrNull(dataSplit[8], 0),
-                                    FloorNumber = ViewControl.ConvertToIntOrNull(dataSplit[9], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataSplit[1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataSplit[2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataSplit[3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataSplit[4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataSplit[7], 0),
+                                    NumberOfRooms = parser.ConvertToIntOrNull(dataSplit[8], 0),
+                                    FloorNumber = parser.ConvertToIntOrNull(dataSplit[9], 0),
                                     IdTypeOfEstate = 2
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -198,13 +232,13 @@ namespace WpfApp1.Controller
                             {
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataSplit[1]),
-                                    StreetAddress = GetStringOrNullData(dataSplit[2]),
-                                    HouseNumber = GetStringOrNullData(dataSplit[3]),
-                                    ApartmentNumber = dataSplit[4],
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataSplit[7], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataSplit[1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataSplit[2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataSplit[3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataSplit[4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataSplit[5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataSplit[6], -180, 180),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataSplit[7], 0),
                                     IdTypeOfEstate = 3
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -243,14 +277,14 @@ namespace WpfApp1.Controller
                                     continue;
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
-                                    NumberOfStroyes = ViewControl.ConvertToIntOrNull(dataArr[i][7], 0),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][8], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
+                                    NumberOfStroyes = parser.ConvertToIntOrNull(dataArr[i][7], 0),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataArr[i][8], 0),
                                     IdTypeOfEstate = 1
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -270,15 +304,15 @@ namespace WpfApp1.Controller
                                     continue;
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][7], 0),
-                                    FloorNumber = ViewControl.ConvertToIntOrNull(dataArr[i][8], 0),
-                                    NumberOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][9], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataArr[i][7], 0),
+                                    FloorNumber = parser.ConvertToIntOrNull(dataArr[i][8], 0),
+                                    NumberOfRooms = parser.ConvertToIntOrNull(dataArr[i][9], 0),
                                     IdTypeOfEstate = 2
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -297,13 +331,13 @@ namespace WpfApp1.Controller
                                     continue;
                                 Estate estate = new Estate()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    Latitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
-                                    Longtitude = ViewControl.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
-                                    TotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][7], 0),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    Latitude = parser.ConvertToDoubleOrNull(dataArr[i][5], -90, 90),
+                                    Longtitude = parser.ConvertToDoubleOrNull(dataArr[i][6], -180, 180),
+                                    TotalArea = parser.ConvertToDoubleOrNull(dataArr[i][7], 0),
                                     IdTypeOfEstate = 3
                                 };
                                 esoftDB.Estates.Add(estate);
@@ -362,20 +396,20 @@ namespace WpfApp1.Controller
                                     continue;
                                 Demand demand = new Demand()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
-                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = parser.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = parser.ConvertToIntOrNull(dataArr[i][6]),
                                     IdRealtor = int.Parse(dataArr[i][7]),
                                     IdClient = int.Parse(dataArr[i][8]),
-                                    MinNumbOfStroyes = ViewControl.ConvertToIntOrNull(dataArr[i][9]),
-                                    MaxNumbOfStroyes = ViewControl.ConvertToIntOrNull(dataArr[i][10]),
-                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][11]),
-                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][12]),
-                                    MinNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][13]),
-                                    MaxNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][14]),
+                                    MinNumbOfStroyes = parser.ConvertToIntOrNull(dataArr[i][9]),
+                                    MaxNumbOfStroyes = parser.ConvertToIntOrNull(dataArr[i][10]),
+                                    MinTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][11]),
+                                    MaxTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][12]),
+                                    MinNumbOfRooms = parser.ConvertToIntOrNull(dataArr[i][13]),
+                                    MaxNumbOfRooms = parser.ConvertToIntOrNull(dataArr[i][14]),
                                     IdTypeOfEstate = 1
                                 };
                                 esoftDB.Demands.Add(demand);
@@ -394,20 +428,20 @@ namespace WpfApp1.Controller
                                     continue;
                                 Demand demand = new Demand()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
-                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = parser.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = parser.ConvertToIntOrNull(dataArr[i][6]),
                                     IdRealtor = int.Parse(dataArr[i][7]),
                                     IdClient = int.Parse(dataArr[i][8]),
-                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][9]),
-                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][10]),
-                                    MinNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][11]),
-                                    MaxNumbOfRooms = ViewControl.ConvertToIntOrNull(dataArr[i][12]),
-                                    MinFloorNumber = ViewControl.ConvertToIntOrNull(dataArr[i][13]),
-                                    MaxFloorNumber = ViewControl.ConvertToIntOrNull(dataArr[i][14]),
+                                    MinTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][9]),
+                                    MaxTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][10]),
+                                    MinNumbOfRooms = parser.ConvertToIntOrNull(dataArr[i][11]),
+                                    MaxNumbOfRooms = parser.ConvertToIntOrNull(dataArr[i][12]),
+                                    MinFloorNumber = parser.ConvertToIntOrNull(dataArr[i][13]),
+                                    MaxFloorNumber = parser.ConvertToIntOrNull(dataArr[i][14]),
                                     IdTypeOfEstate = 2
                                 };
                                 esoftDB.Demands.Add(demand);
@@ -426,16 +460,16 @@ namespace WpfApp1.Controller
                                     continue;
                                 Demand demand = new Demand()
                                 {
-                                    CityAddress = GetStringOrNullData(dataArr[i][1]),
-                                    StreetAddress = GetStringOrNullData(dataArr[i][2]),
-                                    HouseNumber = GetStringOrNullData(dataArr[i][3]),
-                                    ApartmentNumber = GetStringOrNullData(dataArr[i][4]),
-                                    MinPrice = ViewControl.ConvertToIntOrNull(dataArr[i][5]),
-                                    MaxPrice = ViewControl.ConvertToIntOrNull(dataArr[i][6]),
+                                    CityAddress = parser.GetStringOrNullData(dataArr[i][1]),
+                                    StreetAddress = parser.GetStringOrNullData(dataArr[i][2]),
+                                    HouseNumber = parser.GetStringOrNullData(dataArr[i][3]),
+                                    ApartmentNumber = parser.GetStringOrNullData(dataArr[i][4]),
+                                    MinPrice = parser.ConvertToIntOrNull(dataArr[i][5]),
+                                    MaxPrice = parser.ConvertToIntOrNull(dataArr[i][6]),
                                     IdRealtor = int.Parse(dataArr[i][7]),
                                     IdClient = int.Parse(dataArr[i][8]),
-                                    MinTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][9]),
-                                    MaxTotalArea = ViewControl.ConvertToDoubleOrNull(dataArr[i][10]),
+                                    MinTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][9]),
+                                    MaxTotalArea = parser.ConvertToDoubleOrNull(dataArr[i][10]),
                                     IdTypeOfEstate = 3
                                 };
                                 esoftDB.Demands.Add(demand);
@@ -521,11 +555,11 @@ namespace WpfApp1.Controller
             try
             {
                 string[] dataArr = data.Split(new char[]{',', ' '});
-                bool isUnique = await isUniqueObj.Client(dataArr);
+                bool isUnique = await isUniqueObj.Client(dataArr, 0);
                 if ((data[0] > 48 || data[0] < 57) && isUnique)
                 {
-                    string email = GetStringOrNullData(dataArr[3]);
-                    string mobileNumber = GetStringOrNullData(dataArr[4]);
+                    string email = parser.GetStringOrNullData(dataArr[3]);
+                    string mobileNumber = parser.GetStringOrNullData(dataArr[4]);
 
                     if (email == null && mobileNumber == null)
                     {
@@ -535,9 +569,9 @@ namespace WpfApp1.Controller
 
                     Client client = new Client()
                     {
-                        LastName = GetStringOrNullData(dataArr[0]),
-                        FirstName = GetStringOrNullData(dataArr[1]),
-                        Patronymic = GetStringOrNullData(dataArr[2]),
+                        LastName = parser.GetStringOrNullData(dataArr[0]),
+                        FirstName = parser.GetStringOrNullData(dataArr[1]),
+                        Patronymic = parser.GetStringOrNullData(dataArr[2]),
                         Email = email,
                         MobileNumber = mobileNumber
                     };
@@ -551,49 +585,90 @@ namespace WpfApp1.Controller
             }
         }
 
-        //public void AddClient(string[][] dataArr)
-        //{
-        //    try
-        //    {
-        //        for (int i = 0; i < dataArr.Length; i++)
-        //        {
-        //            if (dataArr[i][0].ToCharArray()[0] < 48 ||
-        //                dataArr[i][0].ToCharArray()[0] > 57)
-        //                continue;
+        public async void UpdateClient(IEnumerable data)
+        {
+            Client[] clients = data.Cast<Client>().ToArray();
+            string[][] arr = new string[clients.Length][];
+            for(int i = 0; i < clients.Length; i++)
+            {
+                arr[i] = new string[] { parser.GetStringOrNullData(clients[i].LastName),
+                                        parser.GetStringOrNullData(clients[i].FirstName),
+                                        parser.GetStringOrNullData(clients[i].Patronymic),
+                                        parser.GetStringOrNullData(clients[i].Email),
+                                        parser.GetStringOrNullData(clients[i].MobileNumber) };
+                
+                bool isUnique = await isUniqueObj.Client(arr[i], 1);
+                if (isUnique == false)
+                {
+                    MessageBox.Show("Проверьте уникальность данных и повторите попытку", "Сохранения не приняты");
+                    return;
+                }
+            }
 
-        //            if (i > 0 && !IsUnique.Client(dataArr[i]))
-        //                continue;
-        //            else if (!IsUnique.Client(dataArr[i]))
-        //                continue;
+            SaveChangesDB();
+        }
+        
+        public async Task<List<Client>> GetClients()
+        {
+            try
+            {
+                List<Client> list = await esoftDB.Clients.ToListAsync();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-
-        //            string email = GetStringOrNullData(dataArr[i][4]);
-        //            string mobileNumber = GetStringOrNullData(dataArr[i][5]);
-
-        //            if (email == null && mobileNumber == null)
-        //            {
-        //                MessageBox.Show("Необходимо ввести номер телефона или адрес электронной почты", "Ошибка");
-        //                continue;
-        //            }
-
-        //            Client client = new Client()
-        //            {
-        //                LastName = GetStringOrNullData(dataArr[i][1]),
-        //                FirstName = GetStringOrNullData(dataArr[i][2]),
-        //                Patronymic = GetStringOrNullData(dataArr[i][3]),
-        //                Email = email,
-        //                MobileNumber = mobileNumber
-        //            };
-        //            esoftDB.Clients.Add(client);
-        //        }
-        //        SaveChangesDB();
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.Message, "Ошибка");
-        //    }
-        //}
-
+        public async Task<List<Realtor>> GetRealtors()
+        {
+            List<Realtor> list = await esoftDB.Realtors.ToListAsync();
+            return list;
+        }
     }
 }
+
+//public void AddClient(string[][] dataArr)
+//{
+//    try
+//    {
+//        for (int i = 0; i < dataArr.Length; i++)
+//        {
+//            if (dataArr[i][0].ToCharArray()[0] < 48 ||
+//                dataArr[i][0].ToCharArray()[0] > 57)
+//                continue;
+
+//            if (i > 0 && !IsUnique.Client(dataArr[i]))
+//                continue;
+//            else if (!IsUnique.Client(dataArr[i]))
+//                continue;
+
+
+//            string email = GetStringOrNullData(dataArr[i][4]);
+//            string mobileNumber = GetStringOrNullData(dataArr[i][5]);
+
+//            if (email == null && mobileNumber == null)
+//            {
+//                MessageBox.Show("Необходимо ввести номер телефона или адрес электронной почты", "Ошибка");
+//                continue;
+//            }
+
+//            Client client = new Client()
+//            {
+//                LastName = GetStringOrNullData(dataArr[i][1]),
+//                FirstName = GetStringOrNullData(dataArr[i][2]),
+//                Patronymic = GetStringOrNullData(dataArr[i][3]),
+//                Email = email,
+//                MobileNumber = mobileNumber
+//            };
+//            esoftDB.Clients.Add(client);
+//        }
+//        SaveChangesDB();
+
+//    }
+//    catch (Exception e)
+//    {
+//        MessageBox.Show(e.Message, "Ошибка");
+//    }
+//}

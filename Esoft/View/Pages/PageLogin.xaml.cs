@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Esoft.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace WpfApp1.View
     /// </summary>
     public partial class PageLogin : Page
     {
+        Parser parser = new Parser();
         public PageLogin()
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace WpfApp1.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int? age = ViewControl.ConvertToIntOrNull(tb.Text, 0);
+            int? age = parser.ConvertToIntOrNull(tb.Text, 0);
         }
     }
 }

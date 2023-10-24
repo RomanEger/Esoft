@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Esoft.Controller;
+using Esoft.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +32,8 @@ namespace Esoft.View.Pages
     public partial class PageManageClient : Page
     {
         ModelControl modelControl;
+        MyValidator validator;
+        ViewControl viewControl;
 
         public PageManageClient(int tab)
         {
@@ -37,24 +41,26 @@ namespace Esoft.View.Pages
 
 
             modelControl = new ModelControl();
+            validator = new MyValidator();
+            viewControl= new ViewControl();
 
-            Clients.SelectedItem = tab == 1 ? tabAddClient : 
-                                   tab == 2 ? tabUpdateClient : 
-                                              tabDelClient;
+            Clients.SelectedItem = tab == 1 ? tabAddClient : tabUpdateClient;
+
+            viewControl.FillingDataGridClient(dgClients);
 
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             
-            if(!ViewControl.IsValidEmail(tbEmail.Text) && 
-                (tbMobileNumber.Text == string.Empty || !ViewControl.IsValidMobileNumber(tbMobileNumber.Text)))
+            if(!validator.IsValidEmail(tbEmail.Text) && 
+                (tbMobileNumber.Text == string.Empty || !validator.IsValidMobileNumber(tbMobileNumber.Text)))
             {
                 popupError.IsOpen = true;
                 labelPopup.Content = "Некорректный email";
             }
-            else if(!ViewControl.IsValidMobileNumber(tbMobileNumber.Text) &&
-                (tbEmail.Text == string.Empty || !ViewControl.IsValidEmail(tbEmail.Text)))
+            else if(!validator.IsValidMobileNumber(tbMobileNumber.Text) &&
+                (tbEmail.Text == string.Empty || !validator.IsValidEmail(tbEmail.Text)))
             {
                 popupError.IsOpen = true;
                 labelPopup.Content = "Некорректный номер телефона\nВведите номер телефона в формате 8хххххххххх";
@@ -75,5 +81,23 @@ namespace Esoft.View.Pages
         {
             popupError.IsOpen = false;
         }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите принять внесенные изменения?", "Сохранить", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+
+                modelControl.UpdateClient(dgClients.ItemsSource);
+                //FillingDataGrid();
+            }
+            else if (result == MessageBoxResult.No)
+            {
+
+            }
+        }
+
+
     }
 }
