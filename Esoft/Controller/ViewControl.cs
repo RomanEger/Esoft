@@ -20,7 +20,7 @@ namespace WpfApp1.Controller
     {
         public static Frame frame;
 
-        private ModelControl modelControl = new ModelControl();
+        readonly private ModelControl  modelControl = new ModelControl();
         //str = str.Replace(" ", string.Empty);
 
         //        for (int j = 0; j<str.Length; j++)

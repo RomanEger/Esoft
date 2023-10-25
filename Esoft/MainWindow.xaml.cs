@@ -32,7 +32,7 @@ namespace Esoft
 
             frameMain.Navigate(new PageManageClient(1));
 
-            ModelControl.esoftDB = new esoftDBEntities();
+            //ModelControl.esoftDB = new esoftDBEntities();
 
             
         }

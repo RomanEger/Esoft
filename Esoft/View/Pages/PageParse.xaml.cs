@@ -79,7 +79,7 @@ namespace WpfApp1.View.Pages
             
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (data == null)
             {
@@ -89,11 +89,11 @@ namespace WpfApp1.View.Pages
                      data.Length > 0)
             {
                 if (rbEstate.IsChecked == true)
-                    modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                    await modelControl.AddEstate(data, cmbFile.SelectedIndex);
                 else if (rbOffer.IsChecked == true)
-                    modelControl.AddOffer(data);
+                    await modelControl.AddOffer(data);
                 else if (rbDemand.IsChecked == true)
-                    modelControl.AddDemand(data, cmbFile.SelectedIndex);
+                    await modelControl.AddDemand(data, cmbFile.SelectedIndex);
                 else
                     MessageBox.Show("Выберите таблицу");
             }

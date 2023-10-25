@@ -149,7 +149,8 @@
                                       Height="250"
                                       Name="dgClients"
                                       Width="780"
-                                      HorizontalAlignment="Center">
+                                      HorizontalAlignment="Center"
+                                      CanUserDeleteRows="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="*"
                                                         Header="Фамилия"
@@ -175,10 +176,19 @@
                             </DataGrid>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom">
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal">
+                            <Button x:Name="btnUpdateDg"
+                                    Click="btnUpdateDg_Click"
+                                    Content="Обновить таблицу"
+                                    Style="{StaticResource baseStyle}"/>
                             <Button Name="btnSave"
                                     Click="btnSave_Click"
                                     Content="Сохранить изменения"
+                                    Style="{StaticResource baseStyle}"/>
+                            <Button Name="btnDel"
+                                    Click="btnDel_Click"
+                                    Content="Удалить выбранного клиента"
                                     Style="{StaticResource baseStyle}"/>
                         </StackPanel>
                     </StackPanel>
