@@ -19,15 +19,53 @@ namespace WpfApp1.Controller
     internal class ViewControl
     {
         public static Frame frame;
+        readonly private ModelControl modelControl = new ModelControl();
 
-        readonly private ModelControl  modelControl = new ModelControl();
-        //str = str.Replace(" ", string.Empty);
+        private static List<Page> backListPages = new List<Page>();
+        public List<Page> FwdListPages;
 
-        //        for (int j = 0; j<str.Length; j++)
-        //            if (!char.IsDigit(str[j]))
-        //                str = str.Remove(j, 1);
 
-        public async void FillingDataGridClient(DataGrid dataGrid)
+
+        private static int backIndex = -1;
+
+        public int BackIndex
+        {
+            get
+            {
+                if (backIndex > 0)
+                    return --backIndex;
+                else
+                    return backIndex;
+            }
+            
+        }
+
+
+
+
+        public List<Page> BackListPages
+        {
+            get { return backListPages; } 
+        }
+
+        public void AddPageToBackListPages(Page page)
+        {
+            bool isUniquePage = true;
+            foreach (var pages in backListPages)
+            {
+                if(pages.Title == page.Title)
+                    isUniquePage = false;
+            }
+            if (isUniquePage) 
+            {
+                backListPages.Add(page);
+                backIndex++;
+            }
+        }
+
+
+        
+        public async Task FillingDataGridClient(DataGrid dataGrid)
         {
             try
             {
@@ -46,6 +84,26 @@ namespace WpfApp1.Controller
                 Console.WriteLine(ex.Message);
             }
 
+        }
+
+        public async Task FillingDataGridRealtor(DataGrid dataGrid)
+        {
+            try
+            {
+                List<Realtor> items = await modelControl.GetRealtors();
+
+                dataGrid.ItemsSource = items;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Не удалось заполнить список");
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось заполнить список");
+                Console.WriteLine(ex.Message);
+            }
         }
 
     }

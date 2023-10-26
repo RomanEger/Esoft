@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Esoft"
         mc:Ignorable="d"
-        Title="MainWindow" Height="465.96" Width="800"
-        SizeToContent="WidthAndHeight"
+        Title="Esoft" Height="465.96" Width="800"
+        SizeToContent="Height"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Menu Width="auto"
@@ -14,19 +14,22 @@
               VerticalAlignment="Top"
               HorizontalAlignment="Left"
               Background="Transparent"
-              Margin="-1">
-            <MenuItem Header="Undo"
-                      Name="btnUndo"
+              Margin="5">
+            <MenuItem Header="Главное меню"
+                      Name="btnMainMenu"
+                      Click="btnMainMenu_Click"
                       Background="Transparent"
-                      BorderBrush="Transparent"
-                      CommandTarget="{Binding ElementName=frameMain}"
-                      Command="Undo"/>
-            <MenuItem Header="Redo"
-                      Name="btnRedo"
+                      BorderBrush="Transparent"/>
+            <MenuItem Header="Назад"
+                      Name="btnBack"
+                      Click="btnBack_Click"
                       Background="Transparent"
-                      BorderBrush="Transparent"
-                      CommandTarget="{Binding ElementName=frameMain}"
-                      Command="Redo"/>
+                      BorderBrush="Transparent"/>
+            <!--<MenuItem Header="Вперед"
+                      Name="btnForward"
+                      Click="btnForward_Click"
+                      Background="Transparent"
+                      BorderBrush="Transparent"/>-->
         </Menu>
         <Frame Name="frameMain"
                NavigationUIVisibility="Hidden"

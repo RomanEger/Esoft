@@ -1,6 +1,7 @@
 ﻿using Esoft.Model;
 using Esoft.View.Pages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,27 +25,41 @@ namespace Esoft
     /// </summary>
     public partial class MainWindow : Window
     {
+        ViewControl viewControl;
+        MainPage mainPage;
         public MainWindow()
         {
             InitializeComponent();
 
-            ViewControl.frame = frameMain;
+            ResizeMode = ResizeMode.CanMinimize;
 
-            frameMain.Navigate(new PageManageClient(1));
+            ViewControl.frame = frameMain;
+            viewControl = new ViewControl();
+
+            mainPage = new MainPage();
+
+            viewControl.AddPageToBackListPages(mainPage);
+            frameMain.Navigate(mainPage);
 
             //ModelControl.esoftDB = new esoftDBEntities();
-
             
         }
 
-        private void btnUndo_Click(object sender, RoutedEventArgs e)
+        private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            
+            if(viewControl.BackListPages.Count > 1)
+            {
+                int i = viewControl.BackIndex;
+                viewControl.FwdListPages = new List<Page>();
+                frameMain.Navigate(viewControl.BackListPages[i]);
+            }
+
         }
 
-        private void btnRedo_Click(object sender, RoutedEventArgs e)
+        private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            
+            frameMain.Navigate(mainPage);
         }
+
     }
 }

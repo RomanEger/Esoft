@@ -131,11 +131,14 @@
     <Compile Include="View\Alerts\PageError.xaml.cs">
       <DependentUpon>PageError.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\PageManageClient.xaml.cs">
       <DependentUpon>PageManageClient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\PageLogin.xaml.cs">
-      <DependentUpon>PageLogin.xaml</DependentUpon>
+    <Compile Include="View\Pages\PageManageRealtor.xaml.cs">
+      <DependentUpon>PageManageRealtor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\PageParse.xaml.cs">
       <DependentUpon>PageParse.xaml</DependentUpon>
@@ -160,13 +163,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\PageManageClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\PageLogin.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\Pages\PageManageRealtor.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Pages\PageParse.xaml">
       <Generator>MSBuild:Compile</Generator>

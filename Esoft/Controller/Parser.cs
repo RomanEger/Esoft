@@ -11,7 +11,7 @@ namespace Esoft.Controller
     {
         public int? ConvertToIntOrNull(string text, int min = int.MinValue, int max = int.MaxValue)
         {
-
+            if(text == null) return null;
             if (int.TryParse(text, out int result))
             {
                 result = int.Parse(text);
@@ -32,6 +32,7 @@ namespace Esoft.Controller
 
         public double? ConvertToDoubleOrNull(string text, double min = double.MinValue, double max = double.MaxValue)
         {
+            if(text == null) return null;   
             text = text.Replace('.', ',');
             if (double.TryParse(text, out double result))
             {

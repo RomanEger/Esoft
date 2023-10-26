@@ -46,37 +46,45 @@ namespace WpfApp1.View.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            if(openFileDialog.ShowDialog() == true)
+            try
             {
-                MatchCollection matchesTxt = regexTxt.Matches(openFileDialog.FileName);
-                MatchCollection matchesCsv = regexCsv.Matches(openFileDialog.FileName);
+                OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                if (matchesTxt.Count > 0)
+                if(openFileDialog.ShowDialog() == true)
                 {
-                    filedata = File.ReadAllLines(openFileDialog.FileName, Encoding.GetEncoding(1251));
+                    MatchCollection matchesTxt = regexTxt.Matches(openFileDialog.FileName);
+                    MatchCollection matchesCsv = regexCsv.Matches(openFileDialog.FileName);
 
-                    data = new string[filedata.Length][];
+                    if (matchesTxt.Count > 0)
+                    {
+                        filedata = File.ReadAllLines(openFileDialog.FileName, Encoding.GetEncoding(1251));
 
-                    for (int i = 0; i < data.Length; i++)
-                        data[i] = filedata[i].Split(',');
+                        data = new string[filedata.Length][];
+
+                        for (int i = 0; i < data.Length; i++)
+                            data[i] = filedata[i].Split(',');
+                    }
+                    else if(matchesCsv.Count > 0)
+                    {
+                        filedata = File.ReadAllLines(openFileDialog.FileName, Encoding.UTF8);
+
+                        data = new string[filedata.Length][];
+
+                        for (int i = 0; i < data.Length; i++)
+                            data[i] = filedata[i].Split(',');
+                    }
+                    else
+                        MessageBox.Show("Выберите файл формата \".txt\" или \".csv\"");
+                    //modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                    labelOpenFile.Content = "Открыт файл: " +openFileDialog.SafeFileName;
+
                 }
-                else if(matchesCsv.Count > 0)
-                {
-                    filedata = File.ReadAllLines(openFileDialog.FileName, Encoding.UTF8);
-
-                    data = new string[filedata.Length][];
-
-                    for (int i = 0; i < data.Length; i++)
-                        data[i] = filedata[i].Split(',');
-                }
-                else
-                    MessageBox.Show("Выберите файл формата \".txt\" или \".csv\"");
-                //modelControl.AddEstate(data, cmbFile.SelectedIndex);
-                labelOpenFile.Content = "Открыт файл: " +openFileDialog.SafeFileName;
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void btnAdd_Click(object sender, RoutedEventArgs e)

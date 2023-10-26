@@ -1,0 +1,73 @@
+﻿<Page x:Class="Esoft.View.Pages.PageManageRealtor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Esoft.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageManageRealtor">
+
+    <Grid>
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Список риэлторов"
+                       Style="{StaticResource headerH3TextStyle}"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox x:Name="tbSearch"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Width="770"
+                                     HorizontalAlignment="Center"
+                                     Margin="0 15"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="False"
+                                      CanUserAddRows="True"
+                                      Margin="5"
+                                      Height="250"
+                                      Name="dgRealtors"
+                                      Width="770"
+                                      HorizontalAlignment="Center"
+                                      CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Фамилия"
+                                                        x:Name="colLastName"
+                                                        Binding="{Binding Path=LastName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Имя"
+                                                        x:Name="colFirstName"
+                                                        Binding="{Binding Path=FirstName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Отчество"
+                                                        x:Name="colPatronymic"
+                                                        Binding="{Binding Path=Patronymic}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Комиссия %"
+                                                        x:Name="colEmail"
+                                                        Binding="{Binding Path=Commission}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal">
+                <Button x:Name="btnUpdateDg"
+                        Click="btnUpdateDg_Click"
+                        Content="Обновить таблицу"
+                        Style="{StaticResource baseStyle}"/>
+                <Button Name="btnSave"
+                        Click="btnSave_Click"
+                        Content="Сохранить изменения"
+                        Style="{StaticResource baseStyle}"/>
+                <Button Name="btnDel"
+                        Click="btnDel_Click"
+                        Content="Удалить выбранного риэлтора"
+                        Style="{StaticResource baseStyle}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

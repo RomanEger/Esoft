@@ -133,14 +133,16 @@ namespace WpfApp1.Controller
             }
 
 
-            public async Task<bool> Realtor(string[] data)
+            public async Task<bool> Realtor(string[] data, int idOperation)
             {
-                    string lastName, firstName, patronymic;
+                string lastName, firstName, patronymic;
 
-                    lastName = parser.GetStringOrNullData(data[1]);
-                    firstName = parser.GetStringOrNullData(data[2]);
-                    patronymic = parser.GetStringOrNullData(data[3]);
-                    int? commission = parser.ConvertToIntOrNull(data[4], 0, 100);
+                lastName = parser.GetStringOrNullData(data[0]);
+                firstName = parser.GetStringOrNullData(data[1]);
+                patronymic = parser.GetStringOrNullData(data[2]);
+                int? commission = parser.ConvertToIntOrNull(data[3], 0, 100);
+                try
+                {
 
                     int count = await esoftDB.Realtors.Where(x =>
                         (x.LastName == lastName) &&
@@ -148,9 +150,15 @@ namespace WpfApp1.Controller
                         (x.Patronymic == patronymic) &&
                         (x.Commission == commission)
                         ).CountAsync();
-                    if (count == 0)
+                    if (idOperation == 1 ||(count == 0 && idOperation == 0))
                         return true;
-                    return false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                return false;
+                    
             }
 
 
@@ -171,16 +179,12 @@ namespace WpfApp1.Controller
         {
             try
             {
-                    await esoftDB.SaveChangesAsync();
-                    MessageBox.Show("Изменения успешно сохранены.", "Успех");
+                await esoftDB.SaveChangesAsync();
+                MessageBox.Show("Изменения успешно сохранены.", "Успех");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                
             }
         }
 
@@ -367,22 +371,22 @@ namespace WpfApp1.Controller
 
 
 
-        public async Task AddDemand(string data)
-        {
-            string[] dataArr = data.Split(',');
-            for (int i = 0; i < dataArr.Length; i++)
-            {
-                if (data[0] < 48 || data[0] > 57)
-                    continue;
-                Demand demand = new Demand()
-                {
+        //public async Task AddDemand(string data)
+        //{
+        //    string[] dataArr = data.Split(',');
+        //    for (int i = 0; i < dataArr.Length; i++)
+        //    {
+        //        if (data[0] < 48 || data[0] > 57)
+        //            continue;
+        //        Demand demand = new Demand()
+        //        {
                     
 
-                };
-                esoftDB.Demands.Add(demand);
-            }
-            await SaveChangesDB();
-        }
+        //        };
+        //        esoftDB.Demands.Add(demand);
+        //    }
+        //    await SaveChangesDB();
+        //}
 
         public async Task AddDemand(string[][] dataArr, int idTypeOfEstate)
         {
@@ -499,22 +503,22 @@ namespace WpfApp1.Controller
 
 
 
-        public async Task AddOffer(string data)
-        {
-            string[] dataArr = data.Split(',');
-            for (int i = 0; i < dataArr.Length; i++)
-            {
-                if (data[0] < 48 || data[0] > 57)
-                    continue;
-                Offer offer = new Offer()
-                {
+        //public async Task AddOffer(string data)
+        //{
+        //    string[] dataArr = data.Split(',');
+        //    for (int i = 0; i < dataArr.Length; i++)
+        //    {
+        //        if (data[0] < 48 || data[0] > 57)
+        //            continue;
+        //        Offer offer = new Offer()
+        //        {
 
 
-                };
-                esoftDB.Offers.Add(offer);
-            }
-            await SaveChangesDB();
-        }
+        //        };
+        //        esoftDB.Offers.Add(offer);
+        //    }
+        //    await SaveChangesDB();
+        //}
 
         public async Task AddOffer(string[][] dataArr)
         {
@@ -549,12 +553,90 @@ namespace WpfApp1.Controller
 
 
 
-
-        public async Task AddRealtor(string data)
+        public async Task AddOrUpdateRealtor(IEnumerable data)
         {
+            try
+            {
+                List<Realtor> realtors = data.Cast<Realtor>().ToList();
+                string[][] arr = new string[realtors.Count][];
+                for (int i = 0; i < realtors.Count; i++)
+                {
+                    arr[i] = new string[] { parser.GetStringOrNullData(realtors[i].LastName),
+                                            parser.GetStringOrNullData(realtors[i].FirstName),
+                                            parser.GetStringOrNullData(realtors[i].Patronymic),
+                                            parser.GetStringOrNullData(realtors[i].Commission.ToString()) };
 
+                    bool isUnique = await isUniqueObj.Realtor(arr[i], 1);
+                    if (isUnique == false)
+                    {
+                        MessageBox.Show("Проверьте уникальность данных и повторите попытку", "Сохранения не приняты");
+                        return;
+                    }
+                    if (arr[i][0] == null || arr[i][1] == null)
+                    {
+                        MessageBox.Show($"Риэлтора \"{arr[i][0]} {arr[i][1]} {arr[i][2]} {arr[i][3]}\" не удалось добавить\nПроверьте данные и повторите попытку", "Ошибка");
+                        realtors.RemoveAt(i);
+                    }
+                }
+                
+
+                if (true)
+                {
+                    esoftDB.Realtors.AddOrUpdate(realtors.ToArray());
+                    await SaveChangesDB();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось сохранить изменения", "Ошибка");
+            }
         }
 
+        public async Task RemoveRealtor(IEnumerable data)
+        {
+            try
+            {
+                Realtor[] realtors = data.Cast<Realtor>().ToArray();
+                List<string> errRemove = new List<string>();
+                foreach (var client in realtors)
+                {
+                    var cl = await esoftDB.Realtors.Where(x => x.Id == client.Id).FirstAsync();
+                    if (cl.Demands.Count > 0 || cl.Offers.Count > 0)
+                    {
+                        errRemove.Add($"{cl.Id} | {cl.LastName} {cl.FirstName} {cl.Patronymic}");
+                        continue;
+                    }
+                    esoftDB.Realtors.Remove(cl);
+                }
+                if (errRemove.Count == 1)
+                    MessageBox.Show($"Риэлтора {errRemove[0]} нельзя удалить");
+                else if (errRemove.Count > 1)
+                {
+                    string str = string.Empty;
+                    for (int i = 0; i < errRemove.Count; i++)
+                        str += $"{errRemove[i]}\n";
+                    MessageBox.Show($"Риэлторов нельзя удалить: {str}");
+                }
+                await SaveChangesDB();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось удалить риэлтора", "Ошибка");
+            }
+        }
+
+        public async Task<List<Realtor>> GetRealtors()
+        {
+            try
+            {
+                List<Realtor> list = await esoftDB.Realtors.ToListAsync();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public async Task AddClient(string data)
         {
@@ -569,7 +651,7 @@ namespace WpfApp1.Controller
 
                     if (email == null && mobileNumber == null)
                     {
-                        MessageBox.Show("Необходимо ввести номер телефона или адрес электронной почты", "Ошибка");
+                        MessageBox.Show($"Клиента \"{dataArr[0]} {dataArr[1]} {dataArr[2]} {email} {mobileNumber} не удалось добавить\"\nПроверьте корректность номера телефона или email", "Ошибка");
                         return;
                     }
 
@@ -587,31 +669,88 @@ namespace WpfApp1.Controller
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message, "Ошибка");
+                MessageBox.Show("Не удалось добавить клиента\nПроверьте введенные данные и повторите попытку", "Ошибка");
             }
         }
 
-        public async Task UpdateClient(IEnumerable data)
+        public async Task<int> AddClient(Client[] data)
         {
-            Client[] clients = data.Cast<Client>().ToArray();
-            string[][] arr = new string[clients.Length][];
-            for(int i = 0; i < clients.Length; i++)
+            try
             {
-                arr[i] = new string[] { parser.GetStringOrNullData(clients[i].LastName),
-                                        parser.GetStringOrNullData(clients[i].FirstName),
-                                        parser.GetStringOrNullData(clients[i].Patronymic),
-                                        parser.GetStringOrNullData(clients[i].Email),
-                                        parser.GetStringOrNullData(clients[i].MobileNumber) };
-                
-                bool isUnique = await isUniqueObj.Client(arr[i], 1);
-                if (isUnique == false)
+                string[][] dataArr = new string[data.Length][];
+                for(int i = 0; i < data.Length; i++)
                 {
-                    MessageBox.Show("Проверьте уникальность данных и повторите попытку", "Сохранения не приняты");
-                    return;
+                    string str = data[i].LastName + " " + data[i].FirstName + " " + data[i].Patronymic + " " + data[i].Email + " " + data[i].MobileNumber;
+                    dataArr[i] = str.Split(' ');
+                    bool isUnique = await isUniqueObj.Client(dataArr[i], 0);
+
+                    if (isUnique == true)
+                    {
+                        string email = parser.GetStringOrNullData(dataArr[i][3]);
+                        string mobileNumber = parser.GetStringOrNullData(dataArr[i][4]);
+
+                        if (email == null && mobileNumber == null)
+                        {
+                            MessageBox.Show($"Клиента \"{dataArr[i][0]} {dataArr[i][1]} {dataArr[i][2]} {email} {mobileNumber}\" не удалось добавить\nПроверьте корректность номера телефона или email", "Ошибка");
+                            return -1;
+                        }
+
+                        Client client = new Client()
+                        {
+                            LastName = parser.GetStringOrNullData(dataArr[i][0]),
+                            FirstName = parser.GetStringOrNullData(dataArr[i][1]),
+                            Patronymic = parser.GetStringOrNullData(dataArr[i][2]),
+                            Email = email,
+                            MobileNumber = mobileNumber
+                        };
+                        esoftDB.Clients.Add(client);
+                        await SaveChangesDB();
+                        return 0;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Не удалось добавить клиента\nПроверьте введенные данные и повторите попытку", "Ошибка");
+                return -1;
+            }
+        }
+
+        public async Task AddOrUpdateClient(IEnumerable data)
+        {
+            try
+            {
+                List<Client> clients = data.Cast<Client>().ToList();
+                string[][] arr = new string[clients.Count][];
+                for (int i = 0; i < clients.Count; i++)
+                {
+                    arr[i] = new string[] { parser.GetStringOrNullData(clients[i].LastName),
+                                            parser.GetStringOrNullData(clients[i].FirstName),
+                                            parser.GetStringOrNullData(clients[i].Patronymic),
+                                            parser.GetStringOrNullData(clients[i].Email),
+                                            parser.GetStringOrNullData(clients[i].MobileNumber) };
+
+                    bool isUnique = await isUniqueObj.Client(arr[i], 1);
+                    if (isUnique == false)
+                    {
+                        MessageBox.Show("Проверьте уникальность данных и повторите попытку", "Сохранения не приняты");
+                        return;
+                    }
+                }
+                int x = await AddClient(clients.ToArray());
+
+                if(x != 0)
+                {
+                    clients.RemoveAt(clients.Count-1);
+                    esoftDB.Clients.AddOrUpdate(clients.ToArray());
+                    await SaveChangesDB();
                 }
             }
-            esoftDB.Clients.AddOrUpdate(clients);
-            await SaveChangesDB();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось сохранить изменения", "Ошибка");
+            }
         }
         
         public async Task RemoveClient(IEnumerable data)
@@ -619,16 +758,31 @@ namespace WpfApp1.Controller
             try
             {
                 Client[] clients = data.Cast<Client>().ToArray();
+                List<string> errRemove = new List<string>();
                 foreach (var client in clients)
                 {
                     var cl = await esoftDB.Clients.Where(x => x.Id == client.Id).FirstAsync();
+                    if (cl.Demands.Count > 0 || cl.Offers.Count > 0)
+                    {
+                        errRemove.Add($"{cl.Id} | {cl.LastName} {cl.FirstName} {cl.Patronymic}");
+                        continue;
+                    }
                     esoftDB.Clients.Remove(cl);
+                }
+                if(errRemove.Count == 1)
+                    MessageBox.Show($"Клиента {errRemove[0]} нельзя удалить");
+                else if (errRemove.Count > 1)
+                {
+                    string str = string.Empty;
+                    for(int i = 0; i < errRemove.Count; i++)
+                        str += $"{errRemove[i]}\n";
+                    MessageBox.Show($"Клиентов нельзя удалить: {str}");
                 }
                 await SaveChangesDB();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Не удалось удалить клиента", "Ошибка");
             }
         }
 
@@ -645,18 +799,7 @@ namespace WpfApp1.Controller
             }
         }
 
-        public async Task<List<Realtor>> GetRealtors()
-        {
-            try 
-            { 
-                List<Realtor> list = await esoftDB.Realtors.ToListAsync();
-                return list;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        
     }
 }
 

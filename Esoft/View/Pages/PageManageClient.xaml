@@ -9,7 +9,8 @@
       Title="PageManageClient">
 
     <Grid>
-        <TabControl Name="Clients">
+        <!--<TabControl Name="Clients"
+                    Margin="0 20 0 0">
             <TabItem Name="tabAddClient">
                 <TabItem.Header>
                     <Label Content="Добавление клиента"/>
@@ -127,28 +128,33 @@
                         </Popup>
                     </StackPanel>
                 </TabItem.Content>
-            </TabItem>
-            <TabItem Name="tabUpdateClient">
+            </TabItem>-->
+            <!--<TabItem Name="tabUpdateClient">
                 <TabItem.Header>
-                    <Label Content="Изменение клиента"/>
+                    <Label Content="Изменение/удаление клиента"/>
                 </TabItem.Header>
-                <TabItem.Content>
-                    <StackPanel>
-                        <StackPanel HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Margin="15">
-                            <Label Content="Изменение клиента"
-                                   Style="{StaticResource headerH2TextStyle}"/>
+                <TabItem.Content>-->
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Список клиентов"
+                       Style="{StaticResource headerH3TextStyle}"/>
+            </StackPanel>
+                        <StackPanel>
+                            <TextBox x:Name="tbSearch"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Width="770"
+                                     HorizontalAlignment="Center"
+                                     Margin="0 15"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
                             <DataGrid AutoGenerateColumns="False"
                                       IsReadOnly="False"
-                                      CanUserAddRows="False"
+                                      CanUserAddRows="True"
                                       Margin="5"
                                       Height="250"
                                       Name="dgClients"
-                                      Width="780"
+                                      Width="770"
                                       HorizontalAlignment="Center"
                                       CanUserDeleteRows="False">
                                 <DataGrid.Columns>
@@ -192,24 +198,9 @@
                                     Style="{StaticResource baseStyle}"/>
                         </StackPanel>
                     </StackPanel>
-                </TabItem.Content>
-            </TabItem>
-            <!--<TabItem Name="tabDelClient">
-                <TabItem.Header>
-                    <Label Content="Удаление клиента"/>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <StackPanel>
-                        <StackPanel HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Margin="15">
-                            <Label Content="Удаление клиента"
-                                   Style="{StaticResource headerH2TextStyle}"/>
-                        </StackPanel>
-
-                    </StackPanel>
-                </TabItem.Content>
+                <!--</TabItem.Content>
             </TabItem>-->
-        </TabControl>
+            
+        <!--</TabControl>-->
     </Grid>
 </Page>
