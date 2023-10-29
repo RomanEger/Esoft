@@ -87,10 +87,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controller\ModelControl.cs" />
-    <Compile Include="Controller\Parser.cs" />
-    <Compile Include="Controller\MyValidator.cs" />
-    <Compile Include="Controller\ViewControl.cs" />
+    <Compile Include="Controller\modelContollers\ClientControl.cs" />
+    <Compile Include="Controller\modelContollers\DemandControl.cs" />
+    <Compile Include="Controller\modelContollers\EstateControl.cs" />
+    <Compile Include="Controller\modelContollers\ModelControl.cs" />
+    <Compile Include="Controller\modelContollers\OfferControl.cs" />
+    <Compile Include="Controller\viewControllers\Parser.cs" />
+    <Compile Include="Controller\viewControllers\MyValidator.cs" />
+    <Compile Include="Controller\modelContollers\RealtorControl.cs" />
+    <Compile Include="Controller\viewControllers\ViewClientControl.cs" />
+    <Compile Include="Controller\viewControllers\ViewControl.cs" />
+    <Compile Include="Controller\viewControllers\ViewEstateControl.cs" />
+    <Compile Include="Controller\viewControllers\ViewRealtorControl.cs" />
     <Compile Include="Model\Client.cs">
       <DependentUpon>ModelEsoft.tt</DependentUpon>
     </Compile>
@@ -137,6 +145,9 @@
     <Compile Include="View\Pages\PageManageClient.xaml.cs">
       <DependentUpon>PageManageClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\PageManageEstate.xaml.cs">
+      <DependentUpon>PageManageEstate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\PageManageRealtor.xaml.cs">
       <DependentUpon>PageManageRealtor.xaml</DependentUpon>
     </Compile>
@@ -168,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Pages\PageManageClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\PageManageEstate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

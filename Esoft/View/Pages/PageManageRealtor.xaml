@@ -14,12 +14,21 @@
                 <Label Content="Список риэлторов"
                        Style="{StaticResource headerH3TextStyle}"/>
             </StackPanel>
-            <StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Width="800">
                 <TextBox x:Name="tbSearch"
                                      Style="{StaticResource textBoxStyle}"
-                                     Width="770"
-                                     HorizontalAlignment="Center"
-                                     Margin="0 15"/>
+                                     Width="715"
+                                     Margin="15"
+                         HorizontalAlignment="Left"/>
+                <Button x:Name="btnSearch"
+                        Style="{StaticResource baseStyle}"
+                        Content="Поиск"
+                        Width="40"
+                        Click="btnSearch_Click"
+                        HorizontalAlignment="Right"
+                        Margin="0 15"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
@@ -49,6 +58,14 @@
                                                         Header="Комиссия %"
                                                         x:Name="colEmail"
                                                         Binding="{Binding Path=Commission}"/>
+                        <DataGridTextColumn Width="*"
+                                                        x:Name="colOffers"
+                                                        IsReadOnly="True"
+                                                        Binding="{Binding Path=OffersCount}"/>
+                        <DataGridTextColumn Width="*"
+                                                        x:Name="colDemands"
+                                                        IsReadOnly="True"
+                                                        Binding="{Binding Path=DemandsCount}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

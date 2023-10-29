@@ -32,17 +32,21 @@ namespace Esoft.View.Pages
     /// </summary>
     public partial class PageManageClient : Page
     {
-        ModelControl modelControl;
+        ClientControl modelControl;
+        ViewClientControl viewClientControl;
         ViewControl viewControl;
         public PageManageClient()
         {
             InitializeComponent();
 
-            modelControl = new ModelControl();
-            viewControl= new ViewControl();
+            modelControl = new ClientControl();
+            viewClientControl= new ViewClientControl();
+            viewControl = new ViewControl();
 
+            var task = viewClientControl.FillingDataGridClient(dgClients);
 
-            var task = viewControl.FillingDataGridClient(dgClients);
+            colDemands.Header = "Кол-во\nпотребностей";
+            colOffers.Header = "Кол-во\nпредложений";
         }
 
         

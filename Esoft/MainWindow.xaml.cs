@@ -50,7 +50,6 @@ namespace Esoft
             if(viewControl.BackListPages.Count > 1)
             {
                 int i = viewControl.BackIndex;
-                viewControl.FwdListPages = new List<Page>();
                 frameMain.Navigate(viewControl.BackListPages[i]);
             }
 

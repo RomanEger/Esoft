@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Esoft.Controller;
+using Esoft.Model;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +26,9 @@ namespace WpfApp1.View.Pages
     /// </summary>
     public partial class PageParse : Page
     {
-        ModelControl modelControl;
+        EstateControl estateControl;
+        DemandControl demandControl;
+        OfferControl offerControl;
 
         string[] filedata;
         string[][] data;
@@ -36,7 +40,10 @@ namespace WpfApp1.View.Pages
         {
             InitializeComponent();
 
-            modelControl = new ModelControl();
+            estateControl = new EstateControl();
+            demandControl= new DemandControl();
+            offerControl= new OfferControl();
+
 
             cmbFile.ItemsSource = new List<string>() { "Дом", "Квартира", "Земля"};
 
@@ -97,11 +104,11 @@ namespace WpfApp1.View.Pages
                      data.Length > 0)
             {
                 if (rbEstate.IsChecked == true)
-                    await modelControl.AddEstate(data, cmbFile.SelectedIndex);
+                    await estateControl.AddEstate(data, cmbFile.SelectedIndex);
                 else if (rbOffer.IsChecked == true)
-                    await modelControl.AddOffer(data);
+                    await offerControl.AddOffer(data);
                 else if (rbDemand.IsChecked == true)
-                    await modelControl.AddDemand(data, cmbFile.SelectedIndex);
+                    await demandControl.AddDemand(data, cmbFile.SelectedIndex);
                 else
                     MessageBox.Show("Выберите таблицу");
             }

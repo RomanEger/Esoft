@@ -23,6 +23,8 @@ namespace Esoft.View.Pages
     {
         PageManageClient pageManageClient;
         PageManageRealtor pageManageRealtor;
+        PageManageEstate pageManageEstate;
+
         ViewControl viewControl;
         public MainPage()
         {
@@ -45,6 +47,14 @@ namespace Esoft.View.Pages
 
             viewControl.AddPageToBackListPages(pageManageRealtor);
             ViewControl.frame.Navigate(pageManageRealtor);
+        }
+
+        private void btnManageEstate_Click(object sender, RoutedEventArgs e)
+        {
+            pageManageEstate = new PageManageEstate();
+
+            viewControl.AddPageToBackListPages(pageManageEstate);
+            ViewControl.frame.Navigate(pageManageEstate);
         }
     }
 }

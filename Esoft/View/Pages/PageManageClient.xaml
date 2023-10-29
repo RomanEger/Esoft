@@ -178,7 +178,15 @@
                                                         Header="Номер телефона"
                                                         x:Name="colMobileNumber"
                                                         Binding="{Binding Path=MobileNumber}"/>
-                                </DataGrid.Columns>
+                                    <DataGridTextColumn Width="*"
+                                                        x:Name="colOffers"
+                                                        IsReadOnly="True"
+                                                        Binding="{Binding Path=Offers.Count}"/>
+                                    <DataGridTextColumn Width="*"
+                                                        x:Name="colDemands"
+                                                        IsReadOnly="True"
+                                                        Binding="{Binding Path=Demands.Count}"/>
+                    </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center"

@@ -19,7 +19,10 @@
                     Click="btnManageRealtor_Click"
                     Content="Управление риэлторами"
                     Margin="15"/>
-            
+            <Button x:Name="btnManageEstate"
+                    Click="btnManageEstate_Click"
+                    Content="Управление риэлторами"
+                    Margin="15"/>
         </StackPanel>
     </Grid>
 </Page>
