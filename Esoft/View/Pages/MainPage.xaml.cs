@@ -56,5 +56,11 @@ namespace Esoft.View.Pages
             viewControl.AddPageToBackListPages(pageManageEstate);
             ViewControl.frame.Navigate(pageManageEstate);
         }
+
+        
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Title = "Меню";
+        }
     }
 }

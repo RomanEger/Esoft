@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 using WpfApp1.Controller;
+using System.Collections;
 
 namespace Esoft.Controller
 {
@@ -34,6 +35,28 @@ namespace Esoft.Controller
                 Console.WriteLine(ex.Message);
             }
 
+        }
+
+        public async Task Search(string search, DataGrid dataGrid)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(search))
+                    return;
+                IEnumerable items = await clientControl.SearchClients(search);
+
+                dataGrid.ItemsSource = items;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Не удалось заполнить список");
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось заполнить список");
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

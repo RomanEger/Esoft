@@ -141,5 +141,67 @@ namespace Esoft.Controller
             }
         }
 
+        
+        public async Task<IEnumerable> SearchClients(string search)
+        {
+            try
+            {
+                List<Client> clients = await esoftDB.Clients.ToListAsync();
+
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < search.Length; i++)
+                {
+                    if (!char.IsLetter(search[i]))
+                        sb.Append(search[i]);
+                }
+                string separator = sb.ToString();
+
+                sb.Clear();
+
+                List<Client> result = new List<Client>();
+
+                string[] strArr = search.Split(separator.ToCharArray());
+
+
+                for (int i = 0; i < clients.Count; i++)
+                {
+                   
+                    if (strArr.Length == 1)
+                    {
+                        if (LevenshteinDistance(strArr[0], clients[i].LastName = clients[i].LastName == null ? "" : clients[i].LastName) <= 3 ||
+                            LevenshteinDistance(strArr[0], clients[i].FirstName = clients[i].FirstName == null ? "" : clients[i].FirstName) <= 3 ||
+                            LevenshteinDistance(strArr[0], clients[i].Patronymic = clients[i].Patronymic == null ? "" : clients[i].Patronymic) <= 3)
+                                result.Add(clients[i]);
+                    }
+                    else if (strArr.Length == 2)
+                    {
+                        if (LevenshteinDistance(strArr[0], clients[i].LastName = clients[i].LastName == null ? "" : clients[i].LastName) +
+                            LevenshteinDistance(strArr[1], clients[i].FirstName = clients[i].FirstName == null ? "" : clients[i].FirstName) <= 3 ||
+                            
+                            LevenshteinDistance(strArr[0], clients[i].LastName = clients[i].LastName == null ? "" : clients[i].LastName) +
+                            LevenshteinDistance(strArr[1], clients[i].Patronymic = clients[i].Patronymic == null ? "" : clients[i].Patronymic) <= 3 ||
+
+                            LevenshteinDistance(strArr[0], clients[i].FirstName = clients[i].FirstName == null ? "" : clients[i].FirstName) +
+                            LevenshteinDistance(strArr[1], clients[i].Patronymic = clients[i].Patronymic == null ? "" : clients[i].Patronymic) <= 3)
+                                result.Add(clients[i]);
+                    }
+                    else if (strArr.Length == 3)
+                    {
+                        if (LevenshteinDistance(strArr[0], clients[i].LastName = clients[i].LastName == null ? "" : clients[i].LastName) +
+                            LevenshteinDistance(strArr[1], clients[i].FirstName = clients[i].FirstName == null ? "" : clients[i].FirstName) +
+                            LevenshteinDistance(strArr[2], clients[i].Patronymic = clients[i].Patronymic == null ? "" : clients[i].Patronymic) <= 3)
+                                result.Add(clients[i]);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Esoft.Controller;
+using Esoft.Controller.viewControllers;
 using Esoft.Model;
 using System;
 using System.Collections;
@@ -32,6 +33,11 @@ namespace Esoft.View.Pages
     /// </summary>
     public partial class PageManageClient : Page
     {
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Title = "Меню";
+        }
+
         ClientControl modelControl;
         ViewClientControl viewClientControl;
         ViewControl viewControl;
@@ -89,6 +95,19 @@ namespace Esoft.View.Pages
 
             viewControl.AddPageToBackListPages(page);
             ViewControl.frame.Navigate(page);
+        }
+
+        private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            await viewClientControl.Search(tbSearch.Text, dgClients);
+        }
+
+        private async void StackPanel_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                await viewClientControl.Search(tbSearch.Text, dgClients);
+            }
         }
     }
 }

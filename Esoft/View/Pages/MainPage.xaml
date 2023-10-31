@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:Esoft.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage">
+      Title="Меню"
+      Loaded="Page_Loaded">
 
     <Grid>
         <StackPanel HorizontalAlignment="Center"
@@ -21,7 +22,7 @@
                     Margin="15"/>
             <Button x:Name="btnManageEstate"
                     Click="btnManageEstate_Click"
-                    Content="Управление риэлторами"
+                    Content="Управление недвижимостью"
                     Margin="15"/>
         </StackPanel>
     </Grid>

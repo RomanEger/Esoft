@@ -18,13 +18,21 @@ using WpfApp1.Controller;
 
 namespace Esoft.View.Pages
 {
+
+
     /// <summary>
     /// Логика взаимодействия для PageManageEstate.xaml
     /// </summary>
     public partial class PageManageEstate : Page
     {
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Title = "Меню";
+        }
+
         EstateControl estateControl;
         ViewEstateControl viewEstateControl;
+        ViewControl viewControl
 
         public PageManageEstate()
         {
@@ -32,7 +40,7 @@ namespace Esoft.View.Pages
 
             estateControl = new EstateControl();
             viewEstateControl = new ViewEstateControl();
-
+            viewControl = new ViewControl();
 
             colHouseNumb.Header = "Номер\nдома";
             colNumbRooms.Header = "Кол-во\nкомнат";
@@ -61,7 +69,10 @@ namespace Esoft.View.Pages
 
         private void btnUpdateDg_Click(object sender, RoutedEventArgs e)
         {
+            PageManageEstate page = new PageManageEstate();
 
+            viewControl.AddPageToBackListPages(page);
+            ViewControl.frame.Navigate(page);
         }
     }
 }

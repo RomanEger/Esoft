@@ -35,6 +35,8 @@ namespace Esoft.Controller.viewControllers
         {
             try
             {
+                if(string.IsNullOrEmpty(search))
+                    return;
                 IEnumerable items = await realtorControl.SearchRealtors(search);
 
                 dataGrid.ItemsSource = items;

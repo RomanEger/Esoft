@@ -60,5 +60,9 @@ namespace Esoft
             frameMain.Navigate(mainPage);
         }
 
+        private void frameMain_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

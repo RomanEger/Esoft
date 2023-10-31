@@ -165,13 +165,16 @@ namespace Esoft.Controller
         public async Task<IEnumerable> GetEstates()
         {
             var q = from x in esoftDB.Estates
+                    join y in esoftDB.TypesOfEstates
+                    on x.IdTypeOfEstate equals y.Id into a
+                    from z in a.DefaultIfEmpty()
                     select new
                     {
                         x.CityAddress,
                         x.StreetAddress,
                         x.HouseNumber,
                         x.ApartmentNumber,
-                        GetTypeOfEstate = x.IdTypeOfEstate == 1 ? "Дом" : x.IdTypeOfEstate == 2 ? "Квартира" : x.IdTypeOfEstate == 3 ? "Земля" : null,
+                        z.TypeName,
                         x.Latitude,
                         x.Longtitude,
                         x.TotalArea,

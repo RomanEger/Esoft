@@ -1,7 +1,9 @@
 ﻿using Esoft.Controller;
 using Esoft.Controller.viewControllers;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using WpfApp1.Controller;
 
 namespace Esoft.View.Pages
@@ -64,6 +66,19 @@ namespace Esoft.View.Pages
         private async void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             await viewRealtorControl.Search(tbSearch.Text, dgRealtors);
+        }
+
+        private async void StackPanel_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                await viewRealtorControl.Search(tbSearch.Text, dgRealtors);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Title = "Меню";
         }
     }
 }

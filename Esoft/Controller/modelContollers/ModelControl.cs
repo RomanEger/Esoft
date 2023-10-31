@@ -181,9 +181,12 @@ namespace WpfApp1.Controller
 
         protected static int LevenshteinDistance(string firstWord, string secondWord)
         {
-            firstWord = firstWord.ToLower();
-            secondWord = secondWord.ToLower();
 
+            firstWord = firstWord?.ToLower();
+            secondWord = secondWord?.ToLower();
+
+            if(firstWord == secondWord) return 0;
+            
             var n = firstWord.Length + 1;
             var m = secondWord.Length + 1;
             var matrixD = new int[n, m];

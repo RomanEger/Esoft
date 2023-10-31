@@ -108,12 +108,11 @@ namespace Esoft.Controller
 
                 StringBuilder sb = new StringBuilder();
 
-                for (int i = 0; i < search.Length - 1; i++)
+                for (int i = 0; i < search.Length; i++)
                 {
                     if (!char.IsLetter(search[i]))
                         sb.Append(search[i]);
                 }
-
                 string separator = sb.ToString();
 
                 sb.Clear();
@@ -122,37 +121,35 @@ namespace Esoft.Controller
 
                 string[] strArr = search.Split(separator.ToCharArray());
 
-                string str = string.Empty;
 
-                foreach (var item in strArr)
-                {
-                    sb.Append($"{item}");
-                }
-                str = sb.ToString();
                 for (int i = 0; i < realtors.Count; i++)
-                    if (LevenshteinDistance(str, $"{realtors[i].LastName}{realtors[i].FirstName}{realtors[i].Patronymic}") <= 3)
-                        result.Add(realtors[i]);
-
-                dynamic list = new List<Realtor>();
-
-                foreach (var res in result)
                 {
-                    var q = from x in esoftDB.Realtors
-                            where x.Id == res.Id
-                            select new
-                            {
-                                x.LastName,
-                                x.FirstName,
-                                x.Patronymic,
-                                x.Commission,
-                                OffersCount = x.Offers.Count,
-                                DemandsCount = x.Demands.Count
-                            };
-
-                    list = await q.ToListAsync();
+                    if (strArr.Length == 1)
+                    {
+                        if (LevenshteinDistance(strArr[0], realtors[i].LastName) <= 3 ||
+                            LevenshteinDistance(strArr[0], realtors[i].FirstName) <= 3 ||
+                            LevenshteinDistance(strArr[0], realtors[i].Patronymic = realtors[i].Patronymic == null ? "" : realtors[i].Patronymic) <= 3)
+                            result.Add(realtors[i]);
+                    }
+                    else if (strArr.Length == 2)
+                    {
+                        if (LevenshteinDistance(strArr[0], realtors[i].LastName) + LevenshteinDistance(strArr[1], realtors[i].FirstName) <= 3 ||
+                            LevenshteinDistance(strArr[0], realtors[i].LastName) + LevenshteinDistance(strArr[1], realtors[i].Patronymic = realtors[i].Patronymic == null ? "" : realtors[i].Patronymic) <= 3 ||
+                            LevenshteinDistance(strArr[0], realtors[i].FirstName) + LevenshteinDistance(strArr[1], realtors[i].Patronymic = realtors[i].Patronymic == null ? "" : realtors[i].Patronymic) <= 3)
+                            result.Add(realtors[i]);
+                    }
+                    else if (strArr.Length == 3)
+                    {
+                        if (LevenshteinDistance(strArr[0], realtors[i].LastName) +
+                            LevenshteinDistance(strArr[1], realtors[i].FirstName) +
+                            LevenshteinDistance(strArr[2], realtors[i].Patronymic = realtors[i].Patronymic == null ? "" : realtors[i].Patronymic) <= 3)
+                            result.Add(realtors[i]);
+                    }
                 }
 
-                return list;
+
+
+                return result;
             }
             catch (Exception ex)
             {
