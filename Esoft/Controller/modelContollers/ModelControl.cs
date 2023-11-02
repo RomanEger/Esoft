@@ -21,7 +21,7 @@ namespace WpfApp1.Controller
 
         protected Parser parser;
 
-        public async Task<bool> IsUniqueEstate(string[] data)
+        public async Task<bool> IsUniqueEstate(string[] data, int idOperation)
         {
             string cityAddress, streetAddress, houseNumber, apartmentNumber;
             int? latitude, longitude;
@@ -41,7 +41,9 @@ namespace WpfApp1.Controller
                 (x.ApartmentNumber == apartmentNumber) &&
                 (x.Latitude == latitude && x.Longtitude == longitude)
                 ).CountAsync();
-                if (count == 0)
+                if (idOperation == 0 && count == 0)
+                    return true;
+                else if (idOperation == 1 && count <= 1)
                     return true;
             }
             catch (SqlException ex)
@@ -88,7 +90,7 @@ namespace WpfApp1.Controller
                         return true;
                 }
                 else if (idOperation == 1)
-                    if (count == 1 || (countEmail <= 1 && countMobileNumber <= 1))
+                    if (count <= 1 || (countEmail <= 1 && countMobileNumber <= 1))
                         return true;
             }
             catch (SqlException ex)
@@ -185,8 +187,8 @@ namespace WpfApp1.Controller
             firstWord = firstWord?.ToLower();
             secondWord = secondWord?.ToLower();
 
-            if(firstWord == secondWord) return 0;
-            
+            if (firstWord == secondWord) return 0;
+
             var n = firstWord.Length + 1;
             var m = secondWord.Length + 1;
             var matrixD = new int[n, m];
@@ -219,7 +221,66 @@ namespace WpfApp1.Controller
             return matrixD[n - 1, m - 1];
         }
 
+        protected static int LevenshteinDistanceM(string firstWord, params string[] secondWord)
+        {
 
+            firstWord = firstWord?.ToLower();
+            for (int i = 0; i < secondWord.Length; i++)
+            {
+                secondWord[i] = secondWord[i]?.ToLower();
+            }
+            int c = 0;
+            foreach (var item in secondWord)
+            {
+                if (firstWord == item)
+                    c++;
+            }
+
+            if (c > 0)
+                return 0;
+
+            var n = firstWord.Length + 1;
+
+            int x = 0;
+            foreach (var item in secondWord)
+            {
+                var m = item.Length + 1;
+                int z = Method(n, m, firstWord, item);
+                if (z <= 3)
+                    if (item.Length > firstWord.Length && item.Length - firstWord.Length < 3 ||
+                        firstWord.Length > item.Length && firstWord.Length - item.Length < 3)
+                        return z;
+                    else
+                        z = 100;
+                x += z;
+            }
+
+            return x;
+        }
+
+        private static int Method(int n, int m, string firstWord, string secondWord)
+        {
+            if (string.IsNullOrEmpty(firstWord))
+                return secondWord.Length + 100;
+            var matrixD = new int[n, m];
+
+            const int deletionCost = 1;
+            const int insertionCost = 1;
+
+            for (var i = 1; i < n; i++)
+            {
+                for (var j = 1; j < m; j++)
+                {
+                    var substitutionCost = firstWord[i - 1] == secondWord[j - 1] ? 0 : 1;
+
+                    matrixD[i, j] = Minimum(matrixD[i - 1, j] + deletionCost,          // удаление
+                                            matrixD[i, j - 1] + insertionCost,         // вставка
+                                            matrixD[i - 1, j - 1] + substitutionCost); // замена
+                }
+            }
+
+            return matrixD[n - 1, m - 1];
+        }
 
     }
 }

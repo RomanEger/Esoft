@@ -9,7 +9,7 @@
       Title="PageManageOffer">
 
     <Grid>
-        <StackPanel KeyDown="StackPanel_PreviewKeyDown">
+        <!--<StackPanel KeyDown="StackPanel_PreviewKeyDown">
             <StackPanel HorizontalAlignment="Center">
                 <Label Content="Список риэлторов"
                        Style="{StaticResource headerH3TextStyle}"/>
@@ -85,6 +85,6 @@
                         Content="Удалить выбранного риэлтора"
                         Style="{StaticResource baseStyle}"/>
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Page>

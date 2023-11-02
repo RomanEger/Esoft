@@ -15,12 +15,28 @@
                 <Label Content="Список объектов недвижимости"
                        Style="{StaticResource headerH3TextStyle}"/>
             </StackPanel>
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal">
                 <TextBox x:Name="tbSearch"
                                      Style="{StaticResource textBoxStyle}"
-                                     Width="770"
-                                     HorizontalAlignment="Center"
-                                     Margin="0 15"/>
+                                     Width="465"
+                                     Margin="0 15 15 15"
+                         HorizontalAlignment="Left"/>
+                <ComboBox Name="cmbType"
+                          SelectionChanged="cmbType_SelectionChanged"
+                          Width="85"
+                          Margin="0 15"/>
+                <ComboBox Name="cmbStreetAddress"
+                          SelectionChanged="cmbStreetAddress_SelectionChanged"
+                          Width="135"
+                          Margin="15"/>
+                <Button x:Name="btnSearch"
+                        Style="{StaticResource baseStyle}"
+                        Content="Поиск"
+                        Width="40"
+                        Click="btnSearch_Click"
+                        HorizontalAlignment="Right"
+                        Margin="0 15"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
@@ -56,7 +72,7 @@
                                             MinWidth="60"
                                                         Header="Тип"
                                                         x:Name="colType"
-                                                        Binding="{Binding Path=TypeName}"/>
+                                                        Binding="{Binding Path=IdTypeOfEstate}"/>
                         <DataGridTextColumn Width="*"
                                             MinWidth="60"
                                                         Header="Широта"
@@ -90,7 +106,7 @@
                                             MinWidth="90"
                                                         x:Name="colOffers"
                                                         IsReadOnly="True"
-                                                        Binding="{Binding Path=OffersCount}"/>
+                                                        Binding="{Binding Path=Offers.Count}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

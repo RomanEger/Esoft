@@ -32,7 +32,7 @@ namespace Esoft.View.Pages
 
         EstateControl estateControl;
         ViewEstateControl viewEstateControl;
-        ViewControl viewControl
+        ViewControl viewControl;
 
         public PageManageEstate()
         {
@@ -45,9 +45,12 @@ namespace Esoft.View.Pages
             colHouseNumb.Header = "Номер\nдома";
             colNumbRooms.Header = "Кол-во\nкомнат";
             colOffers.Header = "Кол-во\nпредложений";
-            _ = viewEstateControl.FillingDataGridEstate(dgEstates);
+
+
+            _ = viewEstateControl.GetTaskAsync(dgEstates, cmbType, cmbStreetAddress);
         }
 
+        
         private async void btnDel_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Вы уверены, что хотите принять внесенные изменения?", "Удаление", MessageBoxButton.YesNo);
@@ -57,13 +60,20 @@ namespace Esoft.View.Pages
                 await estateControl.RemoveEstate(dgEstates.SelectedItems);
 
 
-                ViewControl.frame.Navigate(new PageManageClient());
+                ViewControl.frame.Navigate(new PageManageEstate());
             }
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            
+            var result = MessageBox.Show("Вы уверены, что хотите принять внесенные изменения?", "Изменение", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                await estateControl.AddOrUpdateEstate(dgEstates.ItemsSource);
+
+                ViewControl.frame.Navigate(new PageManageEstate());
+            }
 
         }
 
@@ -73,6 +83,21 @@ namespace Esoft.View.Pages
 
             viewControl.AddPageToBackListPages(page);
             ViewControl.frame.Navigate(page);
+        }
+
+        private async void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await viewEstateControl.SearchAsync(dgEstates, tbSearch?.Text, cmbType.SelectedItem?.ToString(), cmbStreetAddress.SelectedItem?.ToString());
+        }
+
+        private async void cmbStreetAddress_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await viewEstateControl.SearchAsync(dgEstates, tbSearch?.Text, cmbType.SelectedItem?.ToString(), cmbStreetAddress.SelectedItem?.ToString());
+        }
+
+        private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            await viewEstateControl.SearchAsync(dgEstates, tbSearch?.Text, cmbType.SelectedItem?.ToString(), cmbStreetAddress.SelectedItem?.ToString());
         }
     }
 }
