@@ -153,7 +153,7 @@ namespace WpfApp1.Controller
         }
 
 
-        public async Task<bool> IsUniqueOffer(string[] data)
+        public async Task<bool> IsUniqueOffer()
         {
             return true;
         }

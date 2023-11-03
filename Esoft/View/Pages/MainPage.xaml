@@ -24,6 +24,10 @@
                     Click="btnManageEstate_Click"
                     Content="Управление недвижимостью"
                     Margin="15"/>
+            <Button x:Name="btnManageOffers"
+                    Click="btnManageOffers_Click"
+                    Content="Управление предложениями"
+                    Margin="15"/>
         </StackPanel>
     </Grid>
 </Page>

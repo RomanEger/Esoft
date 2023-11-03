@@ -24,6 +24,7 @@ namespace Esoft.View.Pages
         PageManageClient pageManageClient;
         PageManageRealtor pageManageRealtor;
         PageManageEstate pageManageEstate;
+        PageManageOffer pageManageOffer;
 
         ViewControl viewControl;
         public MainPage()
@@ -61,6 +62,14 @@ namespace Esoft.View.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Title = "Меню";
+        }
+
+        private void btnManageOffers_Click(object sender, RoutedEventArgs e)
+        {
+            pageManageOffer = new PageManageOffer();
+
+            viewControl.AddPageToBackListPages(pageManageOffer);
+            ViewControl.frame.Navigate(pageManageOffer);
         }
     }
 }

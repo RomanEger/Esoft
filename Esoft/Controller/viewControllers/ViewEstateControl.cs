@@ -23,7 +23,6 @@ namespace Esoft.Controller.viewControllers
             await FillingCmbStreetAddress(cmb2);
         }
 
-
         private async Task FillingDataGridEstate(DataGrid dataGrid)
         {
             try

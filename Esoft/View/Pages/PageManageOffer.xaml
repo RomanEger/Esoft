@@ -9,82 +9,168 @@
       Title="PageManageOffer">
 
     <Grid>
-        <!--<StackPanel KeyDown="StackPanel_PreviewKeyDown">
-            <StackPanel HorizontalAlignment="Center">
-                <Label Content="Список риэлторов"
-                       Style="{StaticResource headerH3TextStyle}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
+        <TabControl>
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Список предложений"/>
+                </TabItem.Header>
+                <StackPanel >
+                    <!--
+                    
+                    <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Width="800">
-                <TextBox x:Name="tbSearch"
+                        <TextBox x:Name="tbSearch"
                                      Style="{StaticResource textBoxStyle}"
                                      Width="715"
                                      Margin="15"
                          HorizontalAlignment="Left"/>
-                <Button x:Name="btnSearch"
+                        <Button x:Name="btnSearch"
                         Style="{StaticResource baseStyle}"
                         Content="Поиск"
                         Width="40"
                         Click="btnSearch_Click"
                         HorizontalAlignment="Right"
                         Margin="0 15"/>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center"
+                    </StackPanel>-->
+                    <StackPanel HorizontalAlignment="Center">
+                        <Label Content="Список предложений"
+                       Style="{StaticResource headerH3TextStyle}"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
-                <DataGrid AutoGenerateColumns="False"
-                                      IsReadOnly="False"
-                                      CanUserAddRows="True"
+                        <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserAddRows="False"
                                       Margin="5"
-                                      Height="250"
-                                      Name="dgRealtors"
+                                      Height="280"
+                                      Name="dgOffers"
                                       Width="770"
                                       HorizontalAlignment="Center"
                                       CanUserDeleteRows="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="*"
-                                                        Header="Фамилия"
-                                                        x:Name="colLastName"
-                                                        Binding="{Binding Path=LastName}"/>
-                        <DataGridTextColumn Width="*"
-                                                        Header="Имя"
-                                                        x:Name="colFirstName"
-                                                        Binding="{Binding Path=FirstName}"/>
-                        <DataGridTextColumn Width="*"
-                                                        Header="Отчество"
-                                                        x:Name="colPatronymic"
-                                                        Binding="{Binding Path=Patronymic}"/>
-                        <DataGridTextColumn Width="*"
-                                                        Header="Комиссия %"
-                                                        x:Name="colEmail"
-                                                        Binding="{Binding Path=Commission}"/>
-                        <DataGridTextColumn Width="*"
-                                                        x:Name="colOffers"
-                                                        IsReadOnly="True"
-                                                        Binding="{Binding Path=Offers.Count}"/>
-                        <DataGridTextColumn Width="*"
-                                                        x:Name="colDemands"
-                                                        IsReadOnly="True"
-                                                        Binding="{Binding Path=Demands.Count}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center"
+                            <DataGrid.Columns>
+                                
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Фамилия клиента"
+                                                        x:Name="colClientLn"
+                                                        Binding="{Binding Path=clientLastName}"/>
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Имя клиента"
+                                                        x:Name="colClientFn"
+                                                        Binding="{Binding Path=clientFirstName}"/>
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Отчество клиента"
+                                                        x:Name="colClientP"
+                                                        Binding="{Binding Path=clientPatronymic}"/>
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Номер телефона клиента"
+                                                        x:Name="colClientMobNumb"
+                                                        Binding="{Binding Path=clientMobileNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Email клиента"
+                                                        x:Name="colClientEmail"
+                                                        Binding="{Binding Path=clientEmail}"/>
+                                <DataGridTextColumn Width="2*"
+                                                    Header="Фамилия риэлтора"
+                                                        x:Name="colRealtorLn"
+                                                        Binding="{Binding Path=realtorLastName}"/>
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Имя риэлтора"
+                                                        x:Name="colRealtorFn"
+                                                        Binding="{Binding Path=realtorFirstName}"/>
+                                <DataGridTextColumn Width="2*"
+                                                        Header="Отчество риэлтора"
+                                                        x:Name="colRealtorP"
+                                                        Binding="{Binding Path=realtorPatronymic}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Город"
+                                                        x:Name="colCity"
+                                                        Binding="{Binding Path=estateCityAddress}"/>
+                                <DataGridTextColumn Width="2*"
+                                                    Header="Улица"
+                                                        x:Name="colStreet"
+                                                        Binding="{Binding Path=estateStreetAddress}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Номер дома"
+                                                        x:Name="colHouse"
+                                                        Binding="{Binding Path=estateHouseNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Квартира"
+                                                        x:Name="colApartmentNumber"
+                                                        Binding="{Binding Path=estateApartmentNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Тип о.н."
+                                                        x:Name="colType"
+                                                        Binding="{Binding Path=typeTypeName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Площадь"
+                                                        x:Name="colTotArea"
+                                                        Binding="{Binding Path=estateTotalArea}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Цена"
+                                                        x:Name="colPrice"
+                                                        Binding="{Binding Path=Price}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Orientation="Horizontal">
-                <Button x:Name="btnUpdateDg"
-                        Click="btnUpdateDg_Click"
-                        Content="Обновить таблицу"
-                        Style="{StaticResource baseStyle}"/>
-                <Button Name="btnSave"
-                        Click="btnSave_Click"
-                        Content="Сохранить изменения"
-                        Style="{StaticResource baseStyle}"/>
-                <Button Name="btnDel"
-                        Click="btnDel_Click"
-                        Content="Удалить выбранного риэлтора"
-                        Style="{StaticResource baseStyle}"/>
-            </StackPanel>
-        </StackPanel>-->
+                        <Button x:Name="btnUpdateDg"
+                                Click="btnUpdateDg_Click"
+                                Content="Обновить страницу"
+                                Style="{StaticResource baseStyle}"
+                                Width="200"/>
+                        <Button Name="btnDel"
+                                Click="btnDel_Click"
+                                Content="Удалить выбранное предложение"
+                                Style="{StaticResource baseStyle}"
+                                Width="200"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Управление предложениями"/>
+                </TabItem.Header>
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center"
+                                Margin="15">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="15">
+                            <Label Content="Клиент"
+                                   Width="140"/>
+                            <ComboBox Width="210"
+                                      Name="cmbClient"/>
+                            
+                            <Label Content="Риэлтор"
+                                   Width="140"/>
+                            <ComboBox Width="210"
+                                      Name="cmbRealtor"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="15">
+                            <Label Content="Объект недвижимости" 
+                                   Width="140"/>
+                            <ComboBox Width="210"
+                                      Name="cmbEstate"/>
+
+                            <Label Content="Цена"
+                                   Width="140"/>
+                            <TextBox Width="210"
+                                     Name="tbPrice"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    Margin="15">
+                            <Button Content="Сохранить"
+                                    Name="btnSave"
+                                    Click="btnSave_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Page>

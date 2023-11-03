@@ -145,6 +145,9 @@
     <Compile Include="View\Pages\PageManageClient.xaml.cs">
       <DependentUpon>PageManageClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\PageManageDemand.xaml.cs">
+      <DependentUpon>PageManageDemand.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\PageManageEstate.xaml.cs">
       <DependentUpon>PageManageEstate.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Pages\PageManageClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\PageManageDemand.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,7 +27,7 @@ namespace Esoft.View.Pages
     {
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Title = "Меню";
+            Application.Current.MainWindow.Title = "Управление объектами недвижимости";
         }
 
         EstateControl estateControl;
