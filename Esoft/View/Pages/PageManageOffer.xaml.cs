@@ -85,7 +85,7 @@ namespace Esoft.View.Pages
 
                 int x;
                 if (int.TryParse(tbPrice.Text, out x))
-                    await offerControl.AddOffer(clientId, realtorId, estateId, x, 1);
+                    await offerControl.AddOffer(clientId, realtorId, estateId, x);
                 else
                     throw new Exception();
             }

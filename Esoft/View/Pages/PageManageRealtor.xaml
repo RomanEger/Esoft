@@ -20,13 +20,13 @@
                         Width="800">
                 <TextBox x:Name="tbSearch"
                                      Style="{StaticResource textBoxStyle}"
-                                     Width="715"
+                                     Width="685"
                                      Margin="15"
                          HorizontalAlignment="Left"/>
                 <Button x:Name="btnSearch"
-                        Style="{StaticResource baseStyle}"
+                        Style="{StaticResource btnPrimaryStyle}"
                         Content="Поиск"
-                        Width="40"
+                        Width="70"
                         Click="btnSearch_Click"
                         HorizontalAlignment="Right"
                         Margin="0 15"/>
@@ -74,17 +74,20 @@
                                     VerticalAlignment="Bottom"
                                     Orientation="Horizontal">
                 <Button x:Name="btnUpdateDg"
-                        Click="btnUpdateDg_Click"
-                        Content="Обновить таблицу"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnUpdateDg_Click"
+                                    Content="Обновить страницу"
+                                    Width="200"
+                                    Style="{StaticResource btnUpdStyle}"/>
                 <Button Name="btnSave"
-                        Click="btnSave_Click"
-                        Content="Сохранить изменения"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnSave_Click"
+                                    Width="200"
+                                    Content="Сохранить изменения"
+                                    Style="{StaticResource btnSaveStyle}"/>
                 <Button Name="btnDel"
-                        Click="btnDel_Click"
-                        Content="Удалить выбранного риэлтора"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnDel_Click"
+                                    Content="Удалить выбранного клиента"
+                                    Width="200"
+                                    Style="{StaticResource btnDelStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -1,8 +1,12 @@
 ﻿using Esoft.Model;
+using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
@@ -122,5 +126,198 @@ namespace Esoft.Controller
             }
         }
 
+        public async Task AddDemand(int clientId, int realtorId, int estateId, string cityAddress, string streetAddress,
+            int? minPrice, int? maxPrice, int? minArea, int? maxArea, int? minRooms, int? maxRooms, int? minFloor, int? maxFloor)
+        {
+            Demand demand = new Demand()
+            {
+                IdClient = clientId,
+                IdRealtor = realtorId,
+                IdTypeOfEstate = estateId,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                MinTotalArea = minArea,
+                MaxTotalArea = maxArea,
+                CityAddress = cityAddress,
+                StreetAddress = streetAddress,
+            };
+            if(estateId == 1)
+            {
+                demand.MinNumbOfRooms = minRooms;
+                demand.MaxNumbOfRooms = maxRooms;
+                demand.MinNumbOfStroyes = minFloor;
+                demand.MaxNumbOfStroyes = maxFloor;
+            }
+            else if(estateId == 2)
+            {
+                demand.MinNumbOfRooms = minRooms;
+                demand.MaxNumbOfRooms = maxRooms;
+                demand.MinFloorNumber = minFloor;
+                demand.MaxFloorNumber = maxFloor;
+            }
+
+            var item = await esoftDB.Demands.Where(x => 
+                x.IdClient == demand.IdClient &&
+                x.IdTypeOfEstate == demand.IdTypeOfEstate &&
+                x.IdRealtor == demand.IdRealtor).FirstOrDefaultAsync();
+            if (item != null)
+            {
+                demand.Id = item.Id;
+                esoftDB.Demands.AddOrUpdate(demand);
+            }
+            else
+                esoftDB.Demands.Add(demand);
+
+            await SaveChangesDB();
+        }
+
+        public async Task<IEnumerable> GetDemandsAsync()
+        {
+            try
+            {
+                var q = from x in esoftDB.Demands
+                        join r in esoftDB.Realtors
+                        on x.IdRealtor equals r.Id into b
+                        join cl in esoftDB.Clients
+                        on x.IdClient equals cl.Id into c
+                        join t in esoftDB.TypesOfEstates
+                        on x.IdTypeOfEstate equals t.Id into d
+                        from g in esoftDB.TypesOfEstates
+                        join y in esoftDB.Estates
+                        on x.Id equals y.Id into a
+                        from estate in a.DefaultIfEmpty()
+                        from realtor in b.DefaultIfEmpty()
+                        from client in c.DefaultIfEmpty()
+                        from type in d.DefaultIfEmpty()
+                        select new
+                        {
+                            demandId = x.Id,
+                            clientLastName = client.LastName,
+                            clientFirstName = client.FirstName,
+                            clientPatronymic = client.Patronymic,
+                            clientMobileNumber = client.MobileNumber,
+                            clientEmail = client.Email,
+                            realtorLastName = realtor.LastName,
+                            realtorFirstName = realtor.FirstName,
+                            realtorPatronymic = realtor.Patronymic,
+                            estateCityAddress = x.CityAddress,
+                            estateStreetAddress = x.StreetAddress,
+                            estateHouseNumber = x.HouseNumber,
+                            estateApartmentNumber = x.ApartmentNumber,
+                            typeTypeName = type.TypeName,
+                            estateMinTotalArea = x.MinTotalArea,
+                            estateMaxTotalArea = x.MaxTotalArea,
+                            x.MinPrice,
+                            x.MaxPrice,
+                            minRooms = x.MinNumbOfRooms,
+                            maxRooms = x.MaxNumbOfRooms,
+                            minFloor = x.MinFloorNumber,
+                            maxFloor = x.MaxFloorNumber,
+                            minStroyes = x.MinNumbOfStroyes,
+                            maxStroyes = x.MaxNumbOfStroyes
+                        };
+
+                var list = await q.Distinct().ToListAsync();
+                return list;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
+        public async Task<IEnumerable> FillingCmbClient()
+        {
+            //var q = from x in esoftDB.Demands
+            //        join y in esoftDB.Clients
+            //        on x.IdClient equals y.Id
+            //        into a
+            //        from z in a
+            //        select new
+            //        {
+            //            l = $"{z.Id} | {z.LastName} {z.FirstName} {z.Patronymic} | Номер телефона: {z.MobileNumber} Email: {z.Email}"
+            //        };
+
+            var q = esoftDB.Clients.Select(
+                cl => 
+                    cl.Id + " | " + cl.LastName + " " + cl.FirstName + " " + cl.Patronymic + " | Номер телефона: " + cl.MobileNumber + "Email: " + cl.Email
+                );
+
+            var list = await q.ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable> FillingCmbRealtor()
+        {
+            //var q = from x in esoftDB.Demands
+            //        join y in esoftDB.Realtors
+            //        on x.IdRealtor equals y.Id
+            //        into a
+            //        from z in a
+            //        select new
+            //        {
+            //            l = $"{z.Id} | {z.LastName} {z.FirstName} {z.Patronymic}"
+            //        };
+
+            var q = esoftDB.Realtors.Select(
+                r => r.Id + " | " + r.LastName + " " + r.FirstName + " " + r.Patronymic
+                );
+
+            var list = await q.ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable> FillingCmbType()
+        {
+            //var q = from x in esoftDB.Demands
+            //        join y in esoftDB.TypesOfEstates
+            //        on x.IdTypeOfEstate equals y.Id
+            //        into a
+            //        from z in a
+            //        select
+            //        z.TypeName;
+
+            var q = esoftDB.TypesOfEstates.OrderBy(x => x.Id).Select(x => x.TypeName).Distinct();
+
+            var list = await q.ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable> FillingCmbCity()
+        {
+            var list = await esoftDB.Estates.Select(x => x.CityAddress).Distinct().ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable> FillingCmbStreet()
+        {
+            var list = await esoftDB.Estates.Select(x => x.StreetAddress).Distinct().ToListAsync();
+            return list;
+        }
+
+        public async Task RemoveDemand(List<int> id)
+        {
+            try
+            {
+                var list = new List<Demand>();
+                foreach(var i in id)
+                {
+                    var l = await esoftDB.Demands.Where(x => x.Id == i).FirstOrDefaultAsync();
+                    list.Add(l);
+                }
+
+                foreach (var item in list)
+                {
+                    
+                    esoftDB.Demands.Remove(item);
+                }
+                await SaveChangesDB();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

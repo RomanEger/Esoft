@@ -19,21 +19,23 @@
                         Orientation="Horizontal">
                 <TextBox x:Name="tbSearch"
                                      Style="{StaticResource textBoxStyle}"
-                                     Width="465"
+                                     Width="435"
                                      Margin="0 15 15 15"
                          HorizontalAlignment="Left"/>
                 <ComboBox Name="cmbType"
+                          Style="{StaticResource cmbStyle}"
                           SelectionChanged="cmbType_SelectionChanged"
                           Width="85"
                           Margin="0 15"/>
                 <ComboBox Name="cmbStreetAddress"
+                          Style="{StaticResource cmbStyle}"
                           SelectionChanged="cmbStreetAddress_SelectionChanged"
                           Width="135"
                           Margin="15"/>
                 <Button x:Name="btnSearch"
-                        Style="{StaticResource baseStyle}"
+                        Style="{StaticResource btnPrimaryStyle}"
                         Content="Поиск"
-                        Width="40"
+                        Width="70"
                         Click="btnSearch_Click"
                         HorizontalAlignment="Right"
                         Margin="0 15"/>
@@ -113,18 +115,22 @@
             <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Orientation="Horizontal">
+                
                 <Button x:Name="btnUpdateDg"
-                        Click="btnUpdateDg_Click"
-                        Content="Обновить таблицу"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnUpdateDg_Click"
+                                    Content="Обновить страницу"
+                                    Width="200"
+                                    Style="{StaticResource btnUpdStyle}"/>
                 <Button Name="btnSave"
-                        Click="btnSave_Click"
-                        Content="Сохранить изменения"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnSave_Click"
+                                    Width="200"
+                                    Content="Сохранить изменения"
+                                    Style="{StaticResource btnSaveStyle}"/>
                 <Button Name="btnDel"
-                        Click="btnDel_Click"
-                        Content="Удалить выбранный объект"
-                        Style="{StaticResource baseStyle}"/>
+                                    Click="btnDel_Click"
+                                    Content="Удалить выбранного клиента"
+                                    Width="200"
+                                    Style="{StaticResource btnDelStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

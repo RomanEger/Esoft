@@ -9,7 +9,7 @@
       Title="PageManageOffer">
 
     <Grid>
-        <TabControl>
+        <TabControl Margin="0 30 0 0">
             <TabItem>
                 <TabItem.Header>
                     <Label Content="Список предложений"/>
@@ -43,7 +43,7 @@
                                       IsReadOnly="True"
                                       CanUserAddRows="False"
                                       Margin="5"
-                                      Height="280"
+                                      Height="250"
                                       Name="dgOffers"
                                       Width="770"
                                       HorizontalAlignment="Center"
@@ -119,13 +119,13 @@
                         <Button x:Name="btnUpdateDg"
                                 Click="btnUpdateDg_Click"
                                 Content="Обновить страницу"
-                                Style="{StaticResource baseStyle}"
-                                Width="200"/>
+                                Style="{StaticResource btnUpdStyle}"
+                                Width="250"/>
                         <Button Name="btnDel"
                                 Click="btnDel_Click"
                                 Content="Удалить выбранное предложение"
-                                Style="{StaticResource baseStyle}"
-                                Width="200"/>
+                                Style="{StaticResource btnDelStyle}"
+                                Width="250"/>
                     </StackPanel>
                     
                 </StackPanel>
@@ -140,31 +140,50 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="15">
                             <Label Content="Клиент"
-                                   Width="140"/>
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="160"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
                             <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
                                       Name="cmbClient"/>
                             
                             <Label Content="Риэлтор"
-                                   Width="140"/>
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="80"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
                             <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
                                       Name="cmbRealtor"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
                                     Margin="15">
                             <Label Content="Объект недвижимости" 
-                                   Width="140"/>
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="160"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"
+                                   />
                             <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
                                       Name="cmbEstate"/>
 
                             <Label Content="Цена"
-                                   Width="140"/>
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="80"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
                             <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
                                      Name="tbPrice"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center"
                                     Margin="15">
                             <Button Content="Сохранить"
                                     Name="btnSave"
+                                    Style="{StaticResource btnSaveStyle}"
+                                    Width="90"
                                     Click="btnSave_Click"/>
                         </StackPanel>
                     </StackPanel>

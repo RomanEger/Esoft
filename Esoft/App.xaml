@@ -216,5 +216,101 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="ComboBox"
+               x:Key="cmbStyle"
+               BasedOn="{StaticResource textParagraphColor}">
+            <Setter Property="FontSize" Value="14px"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Height" Value="24px"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="1px"/>
+            <Setter Property="BorderBrush" Value="#B0BEC5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#78909C"/>
+                </Trigger>
+                <Trigger Property="IsDropDownOpen" Value="True">
+                    <Setter Property="Background" Value="#B0BEC5"/>
+                    <Setter Property="BorderBrush" Value="#78909C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnStyle"
+               BasedOn="{StaticResource paragraphTextStyle}">
+            <Setter Property="Height" Value="24px"/>
+            <Setter Property="BorderThickness" Value="1px"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="4"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnDefStyle"
+               BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Foreground" Value="#546E7A"/>
+            <Setter Property="Background" Value="#CFD8DC"/>
+            <Setter Property="BorderBrush" Value="#CFD8DC"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B0BEC5"/>
+                    <Setter Property="BorderBrush" Value="#B0BEC5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnPrimaryStyle"
+               BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Foreground" Value="#F7F9F9"/>
+            <Setter Property="Background" Value="#0091EA"/>
+            <Setter Property="BorderBrush" Value="#0091EA"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0081D1"/>
+                    <Setter Property="BorderBrush" Value="#0081D1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnUpdStyle"
+               BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Foreground" Value="#F7F9F9"/>
+            <Setter Property="Background" Value="#FF9100"/>
+            <Setter Property="BorderBrush" Value="#FF9100"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnDelStyle"
+               BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Foreground" Value="#F7F9F9"/>
+            <Setter Property="Background" Value="#FF1744"/>
+            <Setter Property="BorderBrush" Value="#FF1744"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="btnSaveStyle"
+               BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Foreground" Value="#F7F9F9"/>
+            <Setter Property="Background" Value="#00A68F"/>
+            <Setter Property="BorderBrush" Value="#00A68F"/>
+        </Style>
+        
     </Application.Resources>
 </Application>

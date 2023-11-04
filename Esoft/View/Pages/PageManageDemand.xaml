@@ -9,6 +9,300 @@
       Title="PageManageDemand">
 
     <Grid>
-        
+        <TabControl Margin="0 30 0 0">
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Список предложений"/>
+                </TabItem.Header>
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <Label Content="Список предложений"
+                       Style="{StaticResource headerH3TextStyle}"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                        <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserAddRows="False"
+                                      Margin="5"
+                                      Height="250"
+                                      Name="dgDemands"
+                                      Width="1400"
+                                      HorizontalAlignment="Center"
+                                      CanUserDeleteRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="0"
+                                                        x:Name="colId"
+                                                        Binding="{Binding Path=demandId}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Фамилия клиента"
+                                                        x:Name="colClientLn"
+                                                        Binding="{Binding Path=clientLastName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Имя клиента"
+                                                        x:Name="colClientFn"
+                                                        Binding="{Binding Path=clientFirstName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Отчество клиента"
+                                                        x:Name="colClientP"
+                                                        Binding="{Binding Path=clientPatronymic}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Номер телефона клиента"
+                                                        x:Name="colClientMobNumb"
+                                                        Binding="{Binding Path=clientMobileNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Email клиента"
+                                                        x:Name="colClientEmail"
+                                                        Binding="{Binding Path=clientEmail}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Фамилия риэлтора"
+                                                        x:Name="colRealtorLn"
+                                                        Binding="{Binding Path=realtorLastName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Имя риэлтора"
+                                                        x:Name="colRealtorFn"
+                                                        Binding="{Binding Path=realtorFirstName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Отчество риэлтора"
+                                                        x:Name="colRealtorP"
+                                                        Binding="{Binding Path=realtorPatronymic}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Город"
+                                                        x:Name="colCity"
+                                                        Binding="{Binding Path=estateCityAddress}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Улица"
+                                                        x:Name="colStreet"
+                                                        Binding="{Binding Path=estateStreetAddress}"/>
+                                <DataGridTextColumn Width="*"
+                                                    Header="Номер дома"
+                                                        x:Name="colHouse"
+                                                        Binding="{Binding Path=estateHouseNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Квартира"
+                                                        x:Name="colApartmentNumber"
+                                                        Binding="{Binding Path=estateApartmentNumber}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Тип о.н."
+                                                        x:Name="colType"
+                                                        Binding="{Binding Path=typeTypeName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Мин. площадь"
+                                                        x:Name="colMinTotArea"
+                                                        Binding="{Binding Path=estateMinTotalArea}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Макс. площадь"
+                                                        x:Name="colMaxTotArea"
+                                                        Binding="{Binding Path=estateMaxTotalArea}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Мин. цена"
+                                                        x:Name="colMinPrice"
+                                                        Binding="{Binding Path=minPrice}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Макс. цена"
+                                                        x:Name="colMaxPrice"
+                                                        Binding="{Binding Path=maxPrice}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Мин. кол-во комнат"
+                                                        x:Name="colMinRooms"
+                                                        Binding="{Binding Path=minRoom}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Макс. кол-во комнат"
+                                                        x:Name="colMaxRooms"
+                                                        Binding="{Binding Path=maxRoom}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Мин. этаж"
+                                                        x:Name="colMinFloors"
+                                                        Binding="{Binding Path=minFloor}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Макс. этаж"
+                                                        x:Name="colMaxFloors"
+                                                        Binding="{Binding Path=maxFloor}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Мин. этажность"
+                                                        x:Name="colMinStroyes"
+                                                        Binding="{Binding Path=minStroyes}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Макс. этажность"
+                                                        x:Name="colMaxStroyes"
+                                                        Binding="{Binding Path=maxStroyes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal">
+                        <Button x:Name="btnUpdateDg"
+                                Click="btnUpdateDg_Click"
+                                Content="Обновить страницу"
+                                Style="{StaticResource btnUpdStyle}"
+                                Width="250"/>
+                        <Button Name="btnDel"
+                                Click="btnDel_Click"
+                                Content="Удалить выбранное предложение"
+                                Style="{StaticResource btnDelStyle}"
+                                Width="250"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Управление предложениями"/>
+                </TabItem.Header>
+                <StackPanel VerticalAlignment="Center">
+
+                    <StackPanel HorizontalAlignment="Center"
+                                Margin="15">
+                        <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Margin="0 15 0 0">
+                            <Label Content="Тип объекта недвижимости"
+                                        Style="{StaticResource paragraphTextStyle}"
+                                   
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <ComboBox Name="cmbType"
+                                      Style="{StaticResource cmbStyle}"
+                                      Width="180"
+                                      SelectionChanged="cmbType_SelectionChanged"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 15 0 0">
+                            <Label Content="Город" 
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
+                                     Name="cmbCity"/>
+
+                            <Label Content="Улица"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
+                                      Name="cmbStreet"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 15 0 0">
+                            <Label Content="Клиент"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
+                                      Name="cmbClient"/>
+
+                            <Label Content="Риэлтор"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <ComboBox Width="210"
+                                      Style="{StaticResource cmbStyle}"
+                                      Name="cmbRealtor"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Мин. цена" 
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMinPrice"/>
+
+                            <Label Content="Макс. цена"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMaxPrice"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Мин. площадь" 
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Name="tbMinArea"
+                                     Style="{StaticResource textBoxStyle}"
+                                     />
+
+                            <Label Content="Макс. площадь"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMaxArea"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 15 0 0"
+                                    Visibility="Collapsed"
+                                    Name="spRooms">
+                            <Label Content="Мин. кол-во комнат" 
+                                  Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMinRooms"/>
+
+                            <Label Content="Макс. кол-во комнат"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMaxRooms"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 15 0 0"
+                                    Visibility="Collapsed"
+                                    Name="spFloors">
+                            <Label Name="labMinFloor"
+                                  Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMinFloors"/>
+
+                            <Label Name="labMaxFloor"
+                                   Style="{StaticResource paragraphTextStyle}"
+                                   Width="140"
+                                   VerticalContentAlignment="Center"
+                                   Margin="0"/>
+                            <TextBox Width="210"
+                                     Style="{StaticResource textBoxStyle}"
+                                     Name="tbMaxFloors"/>
+                        </StackPanel>
+
+                        <StackPanel HorizontalAlignment="Center"
+                                    Margin="0 15 0 0">
+                            <Button Content="Сохранить"
+                                    Style="{StaticResource btnSaveStyle}"
+                                    Name="btnSave"
+                                    Width="90"
+                                    Click="btnSave_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>

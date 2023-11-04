@@ -1,11 +1,9 @@
 ﻿using Esoft.Model;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
@@ -45,7 +43,16 @@ namespace Esoft.Controller
 
         }
 
-        public async Task AddOffer(int clientId, int realtorId, int estateId, int price, int operationId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="realtorId"></param>
+        /// <param name="estateId"></param>
+        /// <param name="price"></param>
+        /// <param name="operationId">0 - Add, 1 - AddOrUpdate</param>
+        /// <returns></returns>
+        public async Task AddOffer(int clientId, int realtorId, int estateId, int price)
         {
             Offer offer = new Offer()
             {
@@ -55,18 +62,16 @@ namespace Esoft.Controller
                 Price = price
             };
 
-            await IsUniqueOffer();
-            if(operationId == 0)
-                esoftDB.Offers.AddOrUpdate(offer);
-            else if(operationId == 1)
+
+            var item = await esoftDB.Offers.Where(x => x.IdClient == offer.IdClient && x.IdEstate == offer.IdEstate).FirstOrDefaultAsync();
+            if (item != null)
             {
-                var item = await esoftDB.Offers.Where(x => x.IdClient == offer.IdClient && x.IdEstate == offer.IdEstate).FirstOrDefaultAsync();
-                if(item != null)
-                {
-                    offer.Id = item.Id;
-                    esoftDB.Offers.AddOrUpdate(offer);
-                }
-            }    
+                offer.Id = item.Id;
+                esoftDB.Offers.AddOrUpdate(offer);
+            }
+            else
+                esoftDB.Offers.Add(offer);
+
             await SaveChangesDB();
         }
 
@@ -81,7 +86,7 @@ namespace Esoft.Controller
                         on x.IdRealtor equals r.Id into b
                         join cl in esoftDB.Clients
                         on x.IdClient equals cl.Id into c
-                        join t in esoftDB.TypesOfEstates 
+                        join t in esoftDB.TypesOfEstates
                         on x.Estate.IdTypeOfEstate equals t.Id into d
                         from type in d.DefaultIfEmpty()
                         from estate in a.DefaultIfEmpty()
@@ -105,7 +110,7 @@ namespace Esoft.Controller
                             estateTotalArea = estate.TotalArea,
                             x.Price
                         };
-                
+
                 var list = await q.ToListAsync();
                 return list;
             }
@@ -119,11 +124,19 @@ namespace Esoft.Controller
         {
             try
             {
+                var list = data.Cast<Offer>();
 
+                foreach (var item in list)
+                {
+                    var i = await esoftDB.Offers.Where(x => x.Id == item.Id).FirstOrDefaultAsync();
+
+                    esoftDB.Offers.Remove(i);
+                }
+                await SaveChangesDB();
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Esoft"
         mc:Ignorable="d"
         Title="Esoft" Height="465.96" Width="800"
-        SizeToContent="Height"
+        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Menu Width="auto"
@@ -19,12 +19,14 @@
                       Name="btnMainMenu"
                       Click="btnMainMenu_Click"
                       Background="Transparent"
-                      BorderBrush="Transparent"/>
+                      BorderBrush="Transparent"
+                      MinWidth="95"/>
             <MenuItem Header="Назад"
                       Name="btnBack"
                       Click="btnBack_Click"
                       Background="Transparent"
-                      BorderBrush="Transparent"/>
+                      BorderBrush="Transparent"
+                      MinWidth="50"/>
             <!--<MenuItem Header="Вперед"
                       Name="btnForward"
                       Click="btnForward_Click"

@@ -15,18 +15,28 @@
             <Button x:Name="btnManageClient"
                     Click="btnManageClient_Click"
                     Content="Управление клиентами"
+                    Style="{StaticResource btnPrimaryStyle}"
                     Margin="15"/>
             <Button x:Name="btnManageRealtor"
                     Click="btnManageRealtor_Click"
                     Content="Управление риэлторами"
+                    Style="{StaticResource btnPrimaryStyle}"
                     Margin="15"/>
             <Button x:Name="btnManageEstate"
                     Click="btnManageEstate_Click"
                     Content="Управление недвижимостью"
+                    Style="{StaticResource btnPrimaryStyle}"
                     Margin="15"/>
             <Button x:Name="btnManageOffers"
                     Click="btnManageOffers_Click"
                     Content="Управление предложениями"
+                    Style="{StaticResource btnPrimaryStyle}"
+                    Margin="15"/>
+            <Button x:Name="btnManageDemands"
+                    Click="btnManageDemands_Click"
+                    Content="Управление потребностями"
+                    Style="{StaticResource btnPrimaryStyle}"
+                    Width="220"
                     Margin="15"/>
         </StackPanel>
     </Grid>
