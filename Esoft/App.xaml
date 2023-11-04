@@ -6,11 +6,11 @@
     <Application.Resources>
         <Style TargetType="{x:Type Control}"
                x:Key="baseStyle">
-            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontFamily" Value="./#Roboto-Black"/>
             <Setter Property="Margin" Value="15"/>
         </Style>
 
-
+        
         <!--colors-->
         <!--BLUE  
                 blue_0

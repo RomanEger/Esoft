@@ -239,6 +239,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="View\Resources\Roboto-Black.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
