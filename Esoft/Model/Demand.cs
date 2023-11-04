@@ -14,6 +14,12 @@ namespace Esoft.Model
     
     public partial class Demand
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Demand()
+        {
+            this.Deals = new HashSet<Deal>();
+        }
+    
         public int Id { get; set; }
         public int IdClient { get; set; }
         public int IdRealtor { get; set; }
@@ -36,5 +42,7 @@ namespace Esoft.Model
         public virtual Client Client { get; set; }
         public virtual Realtor Realtor { get; set; }
         public virtual TypesOfEstate TypesOfEstate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Deal> Deals { get; set; }
     }
 }

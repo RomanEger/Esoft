@@ -26,6 +26,7 @@ namespace Esoft.View.Pages
         PageManageEstate pageManageEstate;
         PageManageOffer pageManageOffer;
         PageManageDemand pageManageDemand;
+        PageManageDeal pageManageDeal;
 
         ViewControl viewControl;
         public MainPage()
@@ -79,6 +80,14 @@ namespace Esoft.View.Pages
 
             viewControl.AddPageToBackListPages(pageManageDemand);
             ViewControl.frame.Navigate(pageManageDemand);
+        }
+
+        private void btnManageDeals_Click(object sender, RoutedEventArgs e)
+        {
+            pageManageDeal = new PageManageDeal();
+
+            viewControl.AddPageToBackListPages(pageManageDeal);
+            ViewControl.frame.Navigate(pageManageDeal);
         }
     }
 }

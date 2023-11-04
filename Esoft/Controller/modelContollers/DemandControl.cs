@@ -303,16 +303,17 @@ namespace Esoft.Controller
                 var list = new List<Demand>();
                 foreach(var i in id)
                 {
-                    var l = await esoftDB.Demands.Where(x => x.Id == i).FirstOrDefaultAsync();
-                    list.Add(l);
+                    var l = await esoftDB.Demands.Where(x => x.Id == i && x.Deals.Count == 0).FirstOrDefaultAsync();
+                    if(l != null)
+                        list.Add(l);
                 }
 
                 foreach (var item in list)
                 {
                     
                     esoftDB.Demands.Remove(item);
+                    await SaveChangesDB();
                 }
-                await SaveChangesDB();
             }
             catch (Exception ex)
             {

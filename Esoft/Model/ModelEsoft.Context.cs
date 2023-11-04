@@ -31,5 +31,6 @@ namespace Esoft.Model
         public virtual DbSet<Offer> Offers { get; set; }
         public virtual DbSet<Realtor> Realtors { get; set; }
         public virtual DbSet<TypesOfEstate> TypesOfEstates { get; set; }
+        public virtual DbSet<Deal> Deals { get; set; }
     }
 }

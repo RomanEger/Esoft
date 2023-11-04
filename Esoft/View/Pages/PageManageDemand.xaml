@@ -12,12 +12,13 @@
         <TabControl Margin="0 30 0 0">
             <TabItem>
                 <TabItem.Header>
-                    <Label Content="Список предложений"/>
+                    <Label Content="Список потребностей"/>
                 </TabItem.Header>
                 <StackPanel>
                     <StackPanel HorizontalAlignment="Center">
-                        <Label Content="Список предложений"
-                       Style="{StaticResource headerH3TextStyle}"/>
+                        <Label Content="Список потребностей"
+                               HorizontalContentAlignment="Center"
+                               Style="{StaticResource headerH3TextStyle}"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
@@ -148,7 +149,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <Label Content="Управление предложениями"/>
+                    <Label Content="Управление потребностями"/>
                 </TabItem.Header>
                 <StackPanel VerticalAlignment="Center">
 

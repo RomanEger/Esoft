@@ -1,0 +1,216 @@
+﻿<Page x:Class="Esoft.View.Pages.PageManageDeal"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Esoft.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageManageDeal">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Margin="0 15 0 0">
+                <Button 
+                        Content="Пред."
+                        Width="70"
+                        Name="btnPrev"
+                    Click="btnPrev_Click"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+                
+                <Label Style="{StaticResource headerH2TextStyle}"
+                       HorizontalContentAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Name="labClientInfo"
+                       Width="570"/>
+
+                <Button 
+                        Content="След."
+                        Width="70"
+                        Name="btnNext"
+                    Click="btnNext_Click"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Список потребностей"
+                       Margin="5"
+                       Style="{StaticResource headerH4TextStyle}"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center">
+                <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserAddRows="False"
+                                      Margin="15 0"
+                                      Height="auto"
+                          MaxHeight="100"
+                                      Name="dgDemands"
+                                      Width="770"
+                                      HorizontalAlignment="Center"
+                                      CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="0"
+                                                        x:Name="colId"
+                                                        Binding="{Binding Path=demandId}"/>
+                        <DataGridTextColumn Width="*"
+                                                    Header="Фамилия риэлтора"
+                                                        x:Name="colRealtorLn"
+                                                        Binding="{Binding Path=realtorLastName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Имя риэлтора"
+                                                        x:Name="colRealtorFn"
+                                                        Binding="{Binding Path=realtorFirstName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Отчество риэлтора"
+                                                        x:Name="colRealtorP"
+                                                        Binding="{Binding Path=realtorPatronymic}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Город"
+                                                        x:Name="colCity"
+                                                        Binding="{Binding Path=estateCityAddress}"/>
+                        <DataGridTextColumn Width="*"
+                                                    Header="Улица"
+                                                        x:Name="colStreet"
+                                                        Binding="{Binding Path=estateStreetAddress}"/>
+                        <DataGridTextColumn Width="*"
+                                                    Header="Номер дома"
+                                                        x:Name="colHouse"
+                                                        Binding="{Binding Path=estateHouseNumber}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Квартира"
+                                                        x:Name="colApartmentNumber"
+                                                        Binding="{Binding Path=estateApartmentNumber}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Тип о.н."
+                                                        x:Name="colType"
+                                                        Binding="{Binding Path=typeTypeName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Мин. площадь"
+                                                        x:Name="colMinTotArea"
+                                                        Binding="{Binding Path=estateMinTotalArea}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Макс. площадь"
+                                                        x:Name="colMaxTotArea"
+                                                        Binding="{Binding Path=estateMaxTotalArea}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Мин. цена"
+                                                        x:Name="colMinPrice"
+                                                        Binding="{Binding Path=minPrice}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Макс. цена"
+                                                        x:Name="colMaxPrice"
+                                                        Binding="{Binding Path=maxPrice}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Мин. кол-во комнат"
+                                                        x:Name="colMinRooms"
+                                                        Binding="{Binding Path=minRoom}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Макс. кол-во комнат"
+                                                        x:Name="colMaxRooms"
+                                                        Binding="{Binding Path=maxRoom}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Мин. этаж"
+                                                        x:Name="colMinFloors"
+                                                        Binding="{Binding Path=minFloor}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Макс. этаж"
+                                                        x:Name="colMaxFloors"
+                                                        Binding="{Binding Path=maxFloor}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Мин. этажность"
+                                                        x:Name="colMinStroyes"
+                                                        Binding="{Binding Path=minStroyes}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Макс. этажность"
+                                                        x:Name="colMaxStroyes"
+                                                        Binding="{Binding Path=maxStroyes}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="btnSelectDemand"
+                        Click="btnSelectDemand_Click"
+                        Content="Выбрать"
+                        Width="80"
+                        Margin="15 0"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Список предложений"
+                       Margin="5 15 5 5"
+                       Style="{StaticResource headerH4TextStyle}"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                <DataGrid AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      CanUserAddRows="False"
+                                      Margin="15 0"
+                          Height="auto"
+                                      MaxHeight="100"
+                                      Name="dgOffers"
+                                      Width="770"
+                                      HorizontalAlignment="Center"
+                                      CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="0"
+                                                        x:Name="colIdOffers"
+                                                        Binding="{Binding Path=offerId}"/>
+                        <DataGridTextColumn Width="2*"
+                                                    Header="Фамилия риэлтора"
+                                                        x:Name="colRealtorLnOffers"
+                                                        Binding="{Binding Path=realtorLastName}"/>
+                        <DataGridTextColumn Width="2*"
+                                                        Header="Имя риэлтора"
+                                                        x:Name="colRealtorFnOffers"
+                                                        Binding="{Binding Path=realtorFirstName}"/>
+                        <DataGridTextColumn Width="2*"
+                                                        Header="Отчество риэлтора"
+                                                        x:Name="colRealtorPOffers"
+                                                        Binding="{Binding Path=realtorPatronymic}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Город"
+                                                        x:Name="colCityOffers"
+                                                        Binding="{Binding Path=estateCityAddress}"/>
+                        <DataGridTextColumn Width="2*"
+                                                    Header="Улица"
+                                                        x:Name="colStreetOffers"
+                                                        Binding="{Binding Path=estateStreetAddress}"/>
+                        <DataGridTextColumn Width="*"
+                                                    Header="Номер дома"
+                                                        x:Name="colHouseOffers"
+                                                        Binding="{Binding Path=estateHouseNumber}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Квартира"
+                                                        x:Name="colApartmentNumberOffers"
+                                                        Binding="{Binding Path=estateApartmentNumber}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Тип о.н."
+                                                        x:Name="colTypeOffers"
+                                                        Binding="{Binding Path=typeTypeName}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Площадь"
+                                                        x:Name="colTotAreaOffers"
+                                                        Binding="{Binding Path=estateTotalArea}"/>
+                        <DataGridTextColumn Width="*"
+                                                        Header="Цена"
+                                                        x:Name="colPriceOffers"
+                                                        Binding="{Binding Path=Price}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="btnSelectOffer"
+                        Click="btnSelectOffer_Click"
+                        Content="Выбрать"
+                        Width="80"
+                        Margin="15 0"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+                <Button x:Name="btnAddDeal"
+                        Click="btnAddDeal_Click"
+                        Content="Совершить сделку"
+                        Width="150"
+                        Style="{StaticResource btnSaveStyle}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

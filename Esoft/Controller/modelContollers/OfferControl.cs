@@ -128,11 +128,14 @@ namespace Esoft.Controller
 
                 foreach (var item in list)
                 {
-                    var i = await esoftDB.Offers.Where(x => x.Id == item.Id).FirstOrDefaultAsync();
+                    var i = await esoftDB.Offers.Where(x => x.Id == item.Id && x.Deals.Count == 0).FirstOrDefaultAsync();
+                    if(i != null)
+                    {
+                        esoftDB.Offers.Remove(i);
+                        await SaveChangesDB();
 
-                    esoftDB.Offers.Remove(i);
+                    }
                 }
-                await SaveChangesDB();
             }
             catch (Exception ex)
             {

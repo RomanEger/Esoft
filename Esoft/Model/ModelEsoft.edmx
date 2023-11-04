@@ -16,6 +16,14 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="MobileNumber" Type="nvarchar" MaxLength="11" />
         </EntityType>
+        <EntityType Name="Deals">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOffer" Type="int" Nullable="false" />
+          <Property Name="IdDemand" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Demands">
           <Key>
             <PropertyRef Name="Id" />
@@ -83,6 +91,30 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Deals__IdDemand__19DFD96B">
+          <End Role="Demands" Type="Self.Demands" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Demands">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="IdDemand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deals__IdOffer__18EBB532">
+          <End Role="Offers" Type="Self.Offers" Multiplicity="1" />
+          <End Role="Deals" Type="Self.Deals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deals">
+              <PropertyRef Name="IdOffer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Demands__IdClien__6477ECF3">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
           <End Role="Demands" Type="Self.Demands" Multiplicity="*" />
@@ -143,6 +175,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Offers__IdEstate__6E01572D">
+          <End Role="Estates" Type="Self.Estates" Multiplicity="1" />
+          <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offers">
+              <PropertyRef Name="IdEstate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Offers__IdRealto__59063A47">
           <End Role="Realtors" Type="Self.Realtors" Multiplicity="1" />
           <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
@@ -157,11 +201,20 @@
         </Association>
         <EntityContainer Name="Хранилище esoftDBModelContainer">
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deals" EntityType="Self.Deals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Demands" EntityType="Self.Demands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estates" EntityType="Self.Estates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Offers" EntityType="Self.Offers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Realtors" EntityType="Self.Realtors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfEstates" EntityType="Self.TypesOfEstates" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Deals__IdDemand__19DFD96B" Association="Self.FK__Deals__IdDemand__19DFD96B">
+            <End Role="Demands" EntitySet="Demands" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deals__IdOffer__18EBB532" Association="Self.FK__Deals__IdOffer__18EBB532">
+            <End Role="Offers" EntitySet="Offers" />
+            <End Role="Deals" EntitySet="Deals" />
+          </AssociationSet>
           <AssociationSet Name="FK__Demands__IdClien__6477ECF3" Association="Self.FK__Demands__IdClien__6477ECF3">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="Demands" EntitySet="Demands" />
@@ -180,6 +233,10 @@
           </AssociationSet>
           <AssociationSet Name="FK__Offers__IdClient__5812160E" Association="Self.FK__Offers__IdClient__5812160E">
             <End Role="Clients" EntitySet="Clients" />
+            <End Role="Offers" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Offers__IdEstate__6E01572D" Association="Self.FK__Offers__IdEstate__6E01572D">
+            <End Role="Estates" EntitySet="Estates" />
             <End Role="Offers" EntitySet="Offers" />
           </AssociationSet>
           <AssociationSet Name="FK__Offers__IdRealto__59063A47" Association="Self.FK__Offers__IdRealto__59063A47">
@@ -229,6 +286,7 @@
           <NavigationProperty Name="Client" Relationship="Self.FK__Demands__IdClien__6477ECF3" FromRole="Demands" ToRole="Clients" />
           <NavigationProperty Name="Realtor" Relationship="Self.FK__Demands__IdRealt__656C112C" FromRole="Demands" ToRole="Realtors" />
           <NavigationProperty Name="TypesOfEstate" Relationship="Self.FK__Demands__IdTypeO__66603565" FromRole="Demands" ToRole="TypesOfEstates" />
+          <NavigationProperty Name="Deals" Relationship="esoftDBModel.FK__Deals__IdDemand__19DFD96B" FromRole="Demand" ToRole="Deal" />
         </EntityType>
         <EntityType Name="Estate">
           <Key>
@@ -261,6 +319,7 @@
           <NavigationProperty Name="Client" Relationship="Self.FK__Offers__IdClient__5812160E" FromRole="Offers" ToRole="Clients" />
           <NavigationProperty Name="Estate" Relationship="Self.FK__Offers__IdEstate__59FA5E80" FromRole="Offers" ToRole="Estates" />
           <NavigationProperty Name="Realtor" Relationship="Self.FK__Offers__IdRealto__59063A47" FromRole="Offers" ToRole="Realtors" />
+          <NavigationProperty Name="Deals" Relationship="esoftDBModel.FK__Deals__IdOffer__18EBB532" FromRole="Offer" ToRole="Deal" />
         </EntityType>
         <EntityType Name="Realtor">
           <Key>
@@ -390,6 +449,15 @@
             <End Role="TypesOfEstate" EntitySet="TypesOfEstates" />
             <End Role="Estate" EntitySet="Estates" />
           </AssociationSet>
+          <EntitySet Name="Deals" EntityType="esoftDBModel.Deal" />
+          <AssociationSet Name="FK__Deals__IdDemand__19DFD96B" Association="esoftDBModel.FK__Deals__IdDemand__19DFD96B">
+            <End Role="Demand" EntitySet="Demands" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deals__IdOffer__18EBB532" Association="esoftDBModel.FK__Deals__IdOffer__18EBB532">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="Deal" EntitySet="Deals" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK__Estates__IdTypeO__5AEE82B9">
           <End Type="esoftDBModel.TypesOfEstate" Role="TypesOfEstate" Multiplicity="1" />
@@ -400,6 +468,40 @@
             </Principal>
             <Dependent Role="Estate">
               <PropertyRef Name="IdTypeOfEstate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Deal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOffer" Type="Int32" Nullable="false" />
+          <Property Name="IdDemand" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Demand" Relationship="esoftDBModel.FK__Deals__IdDemand__19DFD96B" FromRole="Deal" ToRole="Demand" />
+          <NavigationProperty Name="Offer" Relationship="esoftDBModel.FK__Deals__IdOffer__18EBB532" FromRole="Deal" ToRole="Offer" />
+        </EntityType>
+        <Association Name="FK__Deals__IdDemand__19DFD96B">
+          <End Type="esoftDBModel.Demand" Role="Demand" Multiplicity="1" />
+          <End Type="esoftDBModel.Deal" Role="Deal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Demand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deal">
+              <PropertyRef Name="IdDemand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deals__IdOffer__18EBB532">
+          <End Type="esoftDBModel.Offer" Role="Offer" Multiplicity="1" />
+          <End Type="esoftDBModel.Deal" Role="Deal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Deal">
+              <PropertyRef Name="IdOffer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -490,6 +592,15 @@
               <MappingFragment StoreEntitySet="TypesOfEstates">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deals">
+            <EntityTypeMapping TypeName="esoftDBModel.Deal">
+              <MappingFragment StoreEntitySet="Deals">
+                <ScalarProperty Name="IdDemand" ColumnName="IdDemand" />
+                <ScalarProperty Name="IdOffer" ColumnName="IdOffer" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

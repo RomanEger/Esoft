@@ -38,6 +38,12 @@
                     Style="{StaticResource btnPrimaryStyle}"
                     Width="220"
                     Margin="15"/>
+            <Button x:Name="btnManageDeals"
+                    Click="btnManageDeals_Click"
+                    Content="Управление сделками"
+                    Style="{StaticResource btnPrimaryStyle}"
+                    Width="220"
+                    Margin="15"/>
         </StackPanel>
     </Grid>
 </Page>
