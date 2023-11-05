@@ -91,6 +91,7 @@
     <Compile Include="Controller\modelContollers\DealControl.cs" />
     <Compile Include="Controller\modelContollers\DemandControl.cs" />
     <Compile Include="Controller\modelContollers\EstateControl.cs" />
+    <Compile Include="Controller\modelContollers\ManageDealControl.cs" />
     <Compile Include="Controller\modelContollers\ModelControl.cs" />
     <Compile Include="Controller\modelContollers\OfferControl.cs" />
     <Compile Include="Controller\viewControllers\Parser.cs" />
@@ -146,6 +147,9 @@
     <Compile Include="View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\PageDeals.xaml.cs">
+      <DependentUpon>PageDeals.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\PageManageClient.xaml.cs">
       <DependentUpon>PageManageClient.xaml</DependentUpon>
     </Compile>
@@ -188,6 +192,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\PageDeals.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

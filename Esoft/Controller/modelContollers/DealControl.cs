@@ -173,28 +173,6 @@ namespace Esoft.Controller.modelContollers
             return list;
         }
 
-        public async Task AddDealAsync(int idDemand, int idOffer)
-        {
-            try
-            {
-                Deal deal = new Deal()
-                {
-                    IdDemand = idDemand,
-                    IdOffer = idOffer
-                };
-
-                int count = await esoftDB.Deals.Where(x => x.IdDemand == idDemand || x.IdOffer == idOffer).CountAsync();
-                if (count == 0)
-                {
-                    esoftDB.Deals.Add(deal);
-                    await SaveChangesDB();
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+        
     }
 }

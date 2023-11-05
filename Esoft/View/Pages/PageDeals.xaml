@@ -1,0 +1,117 @@
+﻿<Page x:Class="Esoft.View.Pages.PageDeals"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Esoft.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageDeals">
+
+    <Grid>
+        <ScrollViewer
+                    Margin="0 30 0 0">
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center">
+
+                    <Label Content="Потребности"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource headerH2TextStyle}"
+                       />
+                    <DataGrid Width="770"
+                          Margin="0 15"
+                          Name="dgDemands"
+                          Height="auto"
+                          MaxHeight="250"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=Id}"
+                                            Header="Id"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdClient}"
+                                            Header="IdClient"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdRealtor}"
+                                            Header="IdRealtor"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdTypeOfEstate}"
+                                            Header="IdTypeOfEstate"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=MinPrice}"
+                                            Header="MinPrice"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=MaxPrice}"
+                                            Header="MaxPrice"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=MinTotalArea}"
+                                            Header="MinArea"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=MaxTotalArea}"
+                                            Header="MaxArea"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=CityAddress}"
+                                            Header="City"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=StreetAddress}"
+                                            Header="Street"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Выбрать"
+                        Name="btnChooseDemand"
+                        Click="btnChooseDemand_Click"
+                        Width="70"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+                    <Label Content="Подходящие предложения"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource headerH2TextStyle}"
+                       />
+                    <DataGrid Width="770"
+                          Margin="0 15"
+                          Name="dgOffers"
+                          Height="auto"
+                          MaxHeight="250"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=Id}"
+                                            Header="Id"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdClient}"
+                                            Header="IdClient"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdRealtor}"
+                                            Header="IdRealtor"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=IdEstate}"
+                                            Header="IdEstate"/>
+                            <DataGridTextColumn Width="*"
+                                            Binding="{Binding Path=Price}"
+                                            Header="Price"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Выбрать"
+                        Name="btnChooseOffer"
+                        Click="btnChooseOffer_Click"
+                        Width="70"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource btnPrimaryStyle}"/>
+                    <Button x:Name="btnAddDeal"
+                        Content="Заключить сделку"
+                        Click="btnAddDeal_Click"
+                        Width="160"
+                        Style="{StaticResource btnSaveStyle}"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

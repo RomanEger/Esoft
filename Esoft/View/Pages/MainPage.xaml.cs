@@ -26,7 +26,8 @@ namespace Esoft.View.Pages
         PageManageEstate pageManageEstate;
         PageManageOffer pageManageOffer;
         PageManageDemand pageManageDemand;
-        PageManageDeal pageManageDeal;
+        PageManageDeal pageInfoAboutClient;
+        PageDeals pageDeals;
 
         ViewControl viewControl;
         public MainPage()
@@ -84,10 +85,18 @@ namespace Esoft.View.Pages
 
         private void btnManageDeals_Click(object sender, RoutedEventArgs e)
         {
-            pageManageDeal = new PageManageDeal();
+            pageDeals = new PageDeals();
 
-            viewControl.AddPageToBackListPages(pageManageDeal);
-            ViewControl.frame.Navigate(pageManageDeal);
+            viewControl.AddPageToBackListPages(pageDeals);
+            ViewControl.frame.Navigate(pageDeals);
+        }
+
+        private void btnInfoAboutClient_Click(object sender, RoutedEventArgs e)
+        {
+            pageInfoAboutClient = new PageManageDeal();
+
+            viewControl.AddPageToBackListPages(pageInfoAboutClient);
+            ViewControl.frame.Navigate(pageInfoAboutClient);
         }
     }
 }

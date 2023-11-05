@@ -17,6 +17,12 @@
                     Content="Управление клиентами"
                     Style="{StaticResource btnPrimaryStyle}"
                     Margin="15"/>
+            <Button x:Name="btnInfoAboutClient"
+                    Click="btnInfoAboutClient_Click"
+                    Content="Данные о клиентах"
+                    Style="{StaticResource btnPrimaryStyle}"
+                    Width="220"
+                    Margin="15"/>
             <Button x:Name="btnManageRealtor"
                     Click="btnManageRealtor_Click"
                     Content="Управление риэлторами"
