@@ -95,13 +95,25 @@
                                                         x:Name="colHouse"
                                                         Binding="{Binding Path=estateHouseNumber}"/>
                                 <DataGridTextColumn Width="*"
-                                                        Header="Квартира"
+                                                        Header="Номер квартиры"
                                                         x:Name="colApartmentNumber"
                                                         Binding="{Binding Path=estateApartmentNumber}"/>
                                 <DataGridTextColumn Width="*"
                                                         Header="Тип о.н."
                                                         x:Name="colType"
                                                         Binding="{Binding Path=typeTypeName}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Этаж"
+                                                        x:Name="colFloor"
+                                                        Binding="{Binding Path=estateFloor}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Кол-во комнат"
+                                                        x:Name="colRooms"
+                                                        Binding="{Binding Path=estateRooms}"/>
+                                <DataGridTextColumn Width="*"
+                                                        Header="Этажность"
+                                                        x:Name="colStroyes"
+                                                        Binding="{Binding Path=estateStroyes}"/>
                                 <DataGridTextColumn Width="*"
                                                         Header="Площадь"
                                                         x:Name="colTotArea"

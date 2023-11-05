@@ -137,6 +137,7 @@ namespace Esoft.Controller.modelContollers
                             from estate in a.DefaultIfEmpty()
                             from realtor in b.DefaultIfEmpty()
                             from client in c.DefaultIfEmpty()
+                            where x.IdClient == idClient
                             select new
                             {
                                 offerId = x.Id,
