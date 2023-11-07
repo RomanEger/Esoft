@@ -128,7 +128,7 @@
                                     Style="{StaticResource btnSaveStyle}"/>
                 <Button Name="btnDel"
                                     Click="btnDel_Click"
-                                    Content="Удалить выбранного клиента"
+                                    Content="Удалить выбранный объект"
                                     Width="200"
                                     Style="{StaticResource btnDelStyle}"/>
             </StackPanel>

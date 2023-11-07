@@ -49,7 +49,8 @@
                                       HorizontalAlignment="Center"
                                       CanUserDeleteRows="False">
                             <DataGrid.Columns>
-                                
+                                <DataGridTextColumn Width="0"
+                                                    Binding="{Binding Path=offerId}"/>
                                 <DataGridTextColumn Width="2*"
                                                         Header="Фамилия клиента"
                                                         x:Name="colClientLn"

@@ -140,7 +140,7 @@
                                 Width="250"/>
                         <Button Name="btnDel"
                                 Click="btnDel_Click"
-                                Content="Удалить выбранное предложение"
+                                Content="Удалить выбранную потребность"
                                 Style="{StaticResource btnDelStyle}"
                                 Width="250"/>
                     </StackPanel>

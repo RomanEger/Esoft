@@ -76,17 +76,17 @@
                 <Button x:Name="btnUpdateDg"
                                     Click="btnUpdateDg_Click"
                                     Content="Обновить страницу"
-                                    Width="200"
+                                    Width="205"
                                     Style="{StaticResource btnUpdStyle}"/>
                 <Button Name="btnSave"
                                     Click="btnSave_Click"
-                                    Width="200"
+                                    Width="205"
                                     Content="Сохранить изменения"
                                     Style="{StaticResource btnSaveStyle}"/>
                 <Button Name="btnDel"
                                     Click="btnDel_Click"
-                                    Content="Удалить выбранного клиента"
-                                    Width="200"
+                                    Content="Удалить выбранного риэлтора"
+                                    Width="205"
                                     Style="{StaticResource btnDelStyle}"/>
             </StackPanel>
         </StackPanel>

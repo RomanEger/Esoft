@@ -1,6 +1,8 @@
 ﻿using Esoft.Model;
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -94,6 +96,7 @@ namespace Esoft.Controller
                         from client in c.DefaultIfEmpty()
                         select new
                         {
+                            offerId = x.Id,
                             clientLastName = client.LastName,
                             clientFirstName = client.FirstName,
                             clientPatronymic = client.Patronymic,
@@ -120,11 +123,18 @@ namespace Esoft.Controller
             }
         }
 
-        public async Task RemoveOffer(IEnumerable data)
+        public async Task RemoveOffer(List<int> data)
         {
             try
             {
-                var list = data.Cast<Offer>();
+                var list = new List<Offer>();
+                   
+                foreach (var d in data)
+                {
+                    var l = await esoftDB.Offers.Where(x => x.Id == d).FirstAsync();
+                    if (l != null)
+                        list.Add(l);
+                }
 
                 foreach (var item in list)
                 {

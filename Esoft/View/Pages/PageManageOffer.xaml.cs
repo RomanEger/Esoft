@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,8 +39,28 @@ namespace Esoft.View.Pages
 
             if (result == MessageBoxResult.Yes)
             {
-                await offerControl.RemoveOffer(dgOffers.SelectedItems);
 
+                var row = dgOffers.SelectedItems;
+
+                List<int> x = new List<int>();
+                foreach (var r in row)
+                {
+                    string str = r.ToString();
+                    var sb = new StringBuilder();
+                    for (int i = 12; i < str.Length; i++)
+                    {
+                        if (char.IsDigit(str[i]))
+                            sb.Append(str[i]);
+                        else
+                            break;
+                    }
+                    str = sb.ToString();
+
+                    x.Add(int.Parse(str));
+
+                }
+
+                await offerControl.RemoveOffer(x);
 
                 ViewControl.frame.Navigate(new PageManageOffer());
             }
